@@ -4,13 +4,14 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 
-const authRoutes = require("./Routes/auth");
+const authRoutes = require("./routes/auth");
 
 const app = express();
 const PORT = process.env.PORT || 4000;
 
 dotenv.config();
 app.use(cors());
+app.use(bodyParser.json());
 app.use(express.json()); 
 
 
