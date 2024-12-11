@@ -62,9 +62,31 @@ const signup = async (req, res)=>{
     }
     catch(error){
         res.status(400).json({ error: error.message });
-        console.log(error)
+        console.log(error);
     }
 };
+const login = async (req, res)=>{
+    try{
+        const { userEmail, userPassword } = req.body;
 
+        const user = await User.findOne({ userEmail });
+        if(user){
+            const passwordMatch = await bcrypt.compare(userPassword, user.userPassword);
+            if(passwordMatch){
+                console.log(user);
+                return res.json(user);
+            }
+            else{
+                return res.json({ status: "Error", getUser: false });
+            }
+        }
+        else{
+            return res.json({ status: "Error", getUser: false});
+        }
+    }
+    catch(error){
+        res.status(400).json({ error: error.message })
+    }
+}
 
-module.exports = { signup }
+module.exports = { signup, login };

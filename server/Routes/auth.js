@@ -32,6 +32,6 @@ var upload = multer({
 router.post("/signup", upload.single("profileImage"), authController.signup);
 
 //Login
-router.post("/login");
+router.post("/login", authController.login);
 
 module.exports = router;
