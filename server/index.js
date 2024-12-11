@@ -5,6 +5,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 
 const authRoutes = require("./routes/auth");
+const noteRoutes = require("./routes/notes")
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -36,6 +37,7 @@ app.get('/', (req, res) => {
 });
 
 app.use("/auth", authRoutes);
+app.use("/notes", noteRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
