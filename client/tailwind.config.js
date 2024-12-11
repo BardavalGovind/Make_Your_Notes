@@ -5,7 +5,14 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      height: {
+        heightWithoutNavbar: 'calc(100vh - 80px)',
+      },
+      backgroundImage: {
+        unsplashBgImage: "url('/img/bgImg.jpg')",
+      }
+    },
   },
   plugins: [],
 }
