@@ -1,11 +1,19 @@
-import React from 'react'
+import React from 'react';
+import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
+import Home from './pages/Home';
+import Navbar from './components/Navbar';
 
 const App = () => {
   return (
-    <h1 className="text-3xl font-bold underline">
-      Hello world!
-    </h1>
+    <>
+      <Router>
+        <Navbar/>
+        <Routes>
+          <Route path='/' element={<Home/>} />
+        </Routes>
+      </Router>
+    </>
   )
 }
 
-export default App
+export default App;
