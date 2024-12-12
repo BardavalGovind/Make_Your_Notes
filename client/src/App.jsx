@@ -2,6 +2,7 @@ import React from 'react';
 import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import Home from './pages/Home';
 import Header from './components/Header';
+import Search from './pages/Search';
 
 const App = () => {
   return (
@@ -10,13 +11,13 @@ const App = () => {
         <Header/>
         <Routes>
           <Route path='/' element={<Home/>} />
-          {/* <Route path='/about' element={<Home/>} />
-          <Route path='/faq' element={<Home/>} />
-          <Route path='/profile' element={<Home/>} />
-          <Route path='/login' element={<Home/>} />
-          <Route path='/signup' element={<Home/>} />
-          <Route path='/upload' element={<Home/>} />
-          <Route path='/search' element={<Home/>} /> */}
+          {/* <Route path='/about' element={<Home/>} /> */}
+          {/* <Route path='/faq' element={<Home/>} /> */}
+          {/* <Route path='/profile' element={<Home/>} /> */}
+          {/* <Route path='/login' element={<Home/>} /> */}
+          {/* <Route path='/signup' element={<Home/>} /> */}
+          {/* <Route path='/upload' element={<Home/>} /> */}
+          <Route path='/search' element={<Search/>} />
         </Routes>
       </Router>
     </>
