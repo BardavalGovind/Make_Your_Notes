@@ -8,6 +8,7 @@ import Upload from './pages/Upload';
 import Faq from './pages/Faq';
 import Profile from './pages/Profile';
 import Login from './pages/Login';
+import Signup from './pages/Signup';
 
 const App = () => {
   return (
@@ -20,7 +21,7 @@ const App = () => {
           <Route path='/faq' element={<Faq/>} />
           <Route path='/profile' element={<Profile/>} />
           <Route path='/login' element={<Login/>} />
-          {/* <Route path='/signup' element={<Home/>} /> */}
+          <Route path='/signup' element={<Signup/>} />
           <Route path='/upload' element={<Upload/>} />
           <Route path='/search' element={<Search/>} />
         </Routes>
