@@ -20,29 +20,30 @@ const Header = () => {
      <div className='hidden md:flex md:items-center md:justify-center md:gap-4'>
         <Link to="/">Home</Link>
         <Link to="/about">About</Link>
-        {/* <Link to="/login">
+        <Link to="/login">
           <button className='rounded-xl bg-blue-500 px-5 py-2 font-semibold hover:bg-blue-600'>Login</button>
         </Link>
         <Link to="/signup">
           <button className='rounded-xl bg-blue-500 px-5 py-2 font-semibold hover:bg-blue-600'>Signup</button>
         </Link>
-     </div> */}
+     </div>
 
-        <Link to="/search">
+        {/* <Link to="/search">
           <FaSearch className='text-xl'/>
         </Link>
         <Link to="/upload">
           <MdOutlineFileUpload className='text-{24px}'/>
         </Link>
         <Link to="/profile">
-          <button className='rounded-xl bg-blue-500 px-5 py-2 font-semibold hover:bg-blue-600'>Profile</button>
+          <button className='rounded-xl bg-blue-500
+           px-5 py-2 font-semibold hover:bg-blue-600'>Profile</button>
         </Link>
         <Link to="/">
           <button className='rounded-xl bg-blue-500 px-5 py-2 font-semibold hover:bg-blue-600'>Logout</button>
-        </Link>
+        </Link> */}
      
     </div> 
-    </div> 
+    
     </header>
   );
 };
