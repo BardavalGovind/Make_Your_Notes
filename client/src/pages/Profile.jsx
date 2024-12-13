@@ -1,4 +1,5 @@
 import React from 'react'
+import { FaExternalLinkAlt } from 'react-icons/fa';
 
 const Profile = () => {
   return (
@@ -24,10 +25,47 @@ const Profile = () => {
             </div>
         </div>
 
+        <div className='flex items-center justify-center gap-4'>
+            <div className='grid h-[80px] w-[100px] place-content-center'>
+                <p className='text-center text-[12px] font-bold'>
+                    No. of Uploads :
+                </p>
+                <p className='text-center text-5xl font-black'>1</p>
+            </div>
+            <span className='h-[60px] w-[1px] bg-gray-400'/>
+            <div className='grid h-[80px] w-[100px]
+            place-content-center'>
+                <p className='text-center text-[12px] font-bold'>
+                    No. of Files :</p>
+                <p className='text-center text-5xl 
+                font-black'>1</p>
+            </div>
+        </div>
       </div>
-      <div className=''></div>
+      <div className='h-auto w-full border-[3px]
+      border-amber-500 p-5 lg:h-full lg:w-[60%]'>
+        <h1 className='mb-3 text-xl
+         font-black'>My Documents :</h1>
+
+        <div className="grid grid-cols-1 gap-5 p-4
+        sm:grid-cols-2 md:grid-cols-3">
+            { Array(10)
+            .fill(true)
+            .map((item, i)=>(
+                    <div
+                    key={i}
+                    className='flex items-center
+                    justify-between border rounded-lg border-black
+                    px-4 py-2 text-black'>
+                        <p className=''> Sem8 </p>
+                        <FaExternalLinkAlt/>
+                    </div>
+            ))}
+        </div>
+      </div>
     </div>
   )
 }
 
 export default Profile;
+
