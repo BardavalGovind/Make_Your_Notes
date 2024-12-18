@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 const Faq = () => {
     const faqs = [
@@ -51,7 +51,7 @@ const Faq = () => {
       ];
   return (
     <div className='h-heightWithoutNavbar gird place-content-center
-     border-2 border-rose-500 '>
+      '>
       <div className='mx-auto max-w-[1550px] px-5 py-8'>
         <h1 className='mb-6 text-3xl font-black'>Frequently Asked Questions</h1>
         <div className="grid gird-cols-1 gap-6
@@ -73,4 +73,5 @@ const Faq = () => {
 }
 
 export default Faq;
+
 
