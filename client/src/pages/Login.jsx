@@ -52,8 +52,9 @@ const Login = () => {
                   name='userEmail'
                  className='w-full rounded-lg border
                   border-gray-400 p-2 focus:ring focus:ring-blue-500'
-                 placeholder='your.email@example.com' />
+                 placeholder='your.email@example.com' 
                  onChange={(e)=> setUserEmail(e.target.value)}
+                 />
             </div>
             <div className="flex flex-col items-start justify-center
             ">

@@ -37,7 +37,7 @@ const Signup = () => {
       },
     );
     console.log("Data: ", result);
-    alert("User entery saved in database");
+    alert("User entry saved in database");
   }
   catch(error){
     console.log("Failed to register user: ", error);
