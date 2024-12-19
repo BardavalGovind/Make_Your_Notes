@@ -42,6 +42,7 @@ const Signup = () => {
   catch(error){
     console.log("Failed to register user: ", error);
   }
+  
  }
 
   return (
