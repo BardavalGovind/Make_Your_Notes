@@ -13,37 +13,36 @@ const Signup = () => {
   const [userName, setUserName] = useState("");
   const [userPassword, setUserPassword] = useState("");
 
-  const registerUser = async (e) => {
-    try {
-      e.preventDefault();
+ const registerUser = async (e)=>{
+  try{
+    e.preventDefault();
 
-      const formData = new FormData();
-      formData.append("firstName", firstName);
-      formData.append("lastName", lastName);
-      formData.append("userBio", userBio);
-      formData.append("userEmail", userEmail);
-      formData.append("userMobile", userMobile);
-      formData.append("userName", userName);
-      formData.append("userPassword", userPassword);
-      formData.append("profileImage", profileImage);
+    const formData = new FormData();
+    formData.append("firstName", firstName);
+    formData.append("lastName", lastName);
+    formData.append("userMobile", userMobile);
+    formData.append("userBio", userBio);
+    formData.append("userEmail", userEmail);
+    formData.append("userName", userName);
+    formData.append("userPassword", userPassword);
+    formData.append("profileImage", profileImage);
 
-      const result = await axios.post(
-        "http://localhost:6969/auth/signup",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+    const result = await axios.post(
+      "http://localhost:5000/auth/signup",
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
         },
-      );
-      console.log("Data: ", result);
-      alert("User Entry Saved in Database");
-
-    } catch (error) {
-      console.log("Failed to Register User: ", error);
-    }
-
-  };
+      },
+    );
+    console.log("Data: ", result);
+    alert("User entery saved in database");
+  }
+  catch(error){
+    console.log("Failed to register user: ", error);
+  }
+ }
 
   return (
     <div className=" flex w-full items-center justify-center bg-[#f3f4f6]">
@@ -164,6 +163,7 @@ const Signup = () => {
                   Click to Upload your profile image
                 </span>
               </p>
+
               <input
                 type="file"
                 placeholder="File"
