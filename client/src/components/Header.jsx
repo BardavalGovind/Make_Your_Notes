@@ -15,6 +15,10 @@ const Header = () => {
   const isAuthenticated = useSelector((state)=> state.user.isAuthenticated);
   const user = useSelector((state)=> state.user.userData);
 
+  const handleLogout = ()=>{
+    dispatch(removeUserData());
+    navigate("/");
+  }
 
   return (
     <header className='h-[80px] flex items-center justify-center shadow-md'>
@@ -45,7 +49,8 @@ const Header = () => {
               px-5 py-2 font-semibold hover:bg-blue-600'>
                 Profile</button>
             </Link>
-            <button className='rounded-xl bg-blue-500 px-5 py-2 font-semibold hover:bg-blue-600'>
+            <button className='rounded-xl bg-blue-500 px-5 py-2
+             font-semibold hover:bg-blue-600' onClick={handleLogout}>
               Logout</button>
             
            </>
