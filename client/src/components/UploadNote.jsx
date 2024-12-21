@@ -1,10 +1,52 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useSelector } from 'react-redux';
+import axios from "axios";
 
 const UploadNote = () => {
+
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [tags, setTags] = useState("");
+  const [file, setFiles] = useState("");
+
+  const user = useSelector((state)=> state.user.userData);
+  const userId = user._id;
+
+    const submitFile = async (e)=>{
+      try{
+        e.preventDefault();
+
+        const formData = new FormData();
+        formData.append("title", title);
+        formData.append("description", description);
+        formData.append("tags", tags);
+        formData.append("file", file);
+        formData.append("userId", userId);
+        
+        console.log(title, description, tags, file, userId);
+
+        const result = await axios.post(
+          "http://localhost:5000/notes/upload",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          },
+        );
+        
+        alert("notes uploaded successfully");
+      }
+      catch(error){
+        console.log("Failed to register user: ", error);
+      }
+      }
+
   return (
-    <div className='flex h-full w-full max-w-[770px]
+    <form className='flex h-full w-full max-w-[770px]
       mx-auto flex-col items-center justify-start
-      p-5 md:border md:border-gray-300 lg:justify-center lg:shadow-xl'>
+      p-5 md:border md:border-gray-300 lg:justify-center lg:shadow-xl'
+      onSubmit={submitFile}>
       <h1 className='text-2xl mb-5 font-black'>Upload Your Notes</h1>
       <div className='mb-5 w-full max-w-[550px]'>
         <input
@@ -23,7 +65,7 @@ const UploadNote = () => {
             type='text'
             placeholder='Description'
             required
-            onChange={(e)=> setTitle(e.target.value)}
+            onChange={(e)=> setDescription(e.target.value)}
             className='block w-full rounded-lg border
             border-gray-300 bg-gray-50 p-2.5 text-sm
             text-gray-900 focus:border-blue-500
@@ -35,7 +77,7 @@ const UploadNote = () => {
             type='text'
             placeholder='Tags'
             required
-            onChange={(e)=> setTitle(e.target.value)}
+            onChange={(e)=> setTags(e.target.value)}
             className='block w-full rounded-lg border
             border-gray-300 bg-gray-50 p-2.5 text-sm
             text-gray-900 focus:border-blue-500
@@ -75,14 +117,15 @@ const UploadNote = () => {
               accept="application/pdf"
               required
               id="dropzone-file"
-              //onChange={(e) => setFile(e.target.files[0])}
+              onChange={(e) => setFiles(e.target.files[0])}
               className="hidden"
             />
           </div>
           </label>
           </div>
-          <button className='my-5 w-full max-w-[550px] rounded-xl bg-blue-500 px-5 py-2 font-bold hover:bg-blue-600'>Submit</button>
-    </div>
+          <button className='my-5 w-full max-w-[550px] rounded-xl bg-blue-500 px-5 
+          py-2 font-bold hover:bg-blue-600' type='submit'>Submit</button>
+    </form>
   );
 }
 

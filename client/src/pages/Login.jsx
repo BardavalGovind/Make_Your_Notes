@@ -26,9 +26,7 @@ const Login = () => {
       console.log("user logged in successfully: ", result);
 
       dispatch(setUserData(result.data));
-
       navigate("/");
-
     }
     catch(error){
       console.log("cannot login the user: ", error);
