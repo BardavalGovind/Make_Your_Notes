@@ -45,7 +45,3 @@ app.listen(PORT, () => {
 });
 
 
-// PORT=5000
-// MONGODB_URI="mongodb+srv://bardavalgovind:GnS2005@cluster1.ouyfx.mongodb.net/NewNotes?retryWrites=true&w=majority"
-// DB_NAME="NewNotes"
-// JWT_SECRET_KEY="mynotes"

@@ -35,3 +35,4 @@ router.post("/signup", upload.single("profileImage"), authController.signup);
 router.post("/login", authController.login);
 
 module.exports = router;
+
