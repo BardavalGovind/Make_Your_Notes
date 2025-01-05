@@ -3,6 +3,7 @@ import NoteCard from "../pages/NoteCard";
 import Modal from "react-modal";
 import { useState } from "react";
 import { MdAdd } from "react-icons/md";
+Modal.setAppElement("#root");
 
 const NoteCardRender = () => {
     const [openAddEditModal, setOpenAddEditModal] = useState({
