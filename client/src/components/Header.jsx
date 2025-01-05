@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { GiHamburgerMenu } from "react-icons/gi";
+import { GiHamburgerMenu } from "react-icons/gi";  
 import { useDispatch, useSelector } from "react-redux";
 import { removeUserData } from "../Redux/slices/user-slice";
 
@@ -22,7 +22,7 @@ const Navbar = () => {
   };
 
   return (
-    <header className="flex h-[80px] items-center justify-center shadow-md">
+    <header className="flex h-[80px] shadow-md">
       <div className="mx-5 flex w-full max-w-[1550px] items-center justify-between">
         {/* Logo Section */}
         <div className="flex h-[60px] w-[120px] items-center justify-center overflow-hidden">
@@ -30,6 +30,8 @@ const Navbar = () => {
         </div>
 
         {/* Hamburger Menu for Small Screens */}
+        <div>
+
         <GiHamburgerMenu
           className="text-xl md:hidden cursor-pointer"
           onClick={toggleMenu}
@@ -59,6 +61,12 @@ const Navbar = () => {
               </Link>
               {isAuthenticated ? (
                 <>
+                  <Link
+                    to="/notecard"
+                    className="w-full hover:bg-blue-600 p-3 rounded transition duration-300"
+                  >
+                    Go to NoteCard
+                  </Link>
                   <Link
                     to="/search"
                     className="w-full hover:bg-blue-600 p-3 rounded transition duration-300"
@@ -99,6 +107,7 @@ const Navbar = () => {
               )}
             </nav>
           </div>
+          
         )}
 
         {/* Desktop Nav Links */}
@@ -111,6 +120,12 @@ const Navbar = () => {
           </Link>
           {isAuthenticated ? (
             <>
+            
+              <Link to="/notecard">
+                <button className="rounded-xl bg-blue-500 px-5 py-2 font-semibold hover:bg-blue-700">
+                Go to NoteCard
+                </button>
+              </Link>
               <Link to="/search">
                 <button className="rounded-xl bg-blue-500 px-5 py-2 font-semibold hover:bg-blue-700">
                   Search
@@ -147,6 +162,7 @@ const Navbar = () => {
               </Link>
             </>
           )}
+        </div>
         </div>
       </div>
     </header>

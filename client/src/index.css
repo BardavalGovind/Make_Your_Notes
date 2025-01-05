@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* .input-label {
+  @apply text-xs text-slate-400;
+}
+
+.input-box {
+  @apply mb-4 w-full rounded border-[1.5px] bg-transparent px-5 py-3 text-sm outline;
+}
+
+.btn-primary {
+  @apply hover:bg-blue my-1 w-full rounded p-2 text-sm text-white;
+}
+
+.icon-btn {
+  @apply hover:text-primary cursor-pointer text-xl text-slate-300;
+} */

@@ -10,6 +10,9 @@ import Profile from './pages/Profile';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import { useSelector } from 'react-redux';
+import NoteCardRender from './components/NoteCardRender';
+
+
 
 
 const App = () => {
@@ -27,6 +30,8 @@ const App = () => {
               <Route path='/profile' element={<Profile/>} />
               <Route path='/upload' element={<Upload/>} />
               <Route path='/search' element={<Search/>} />
+              <Route path='/notecard' element={<NoteCardRender/>} />
+              
             </>
           ) : (
             <>
