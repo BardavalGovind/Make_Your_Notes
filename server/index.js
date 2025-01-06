@@ -11,10 +11,11 @@ const Note = require("./models/CreateNote");
 const app = express();
 const PORT = process.env.PORT || 4000;
 
+
 dotenv.config();
 app.use(cors());
 app.use(bodyParser.json());
-app.use(express.json()); 
+app.use(express.json());
 
 
 
@@ -25,7 +26,7 @@ const connectDb = async () => {
         console.log('MongoDB connection is successful.');
     } catch (error) {
         console.error('MongoDB connection error:', error);
-        
+
     }
 };
 
@@ -42,21 +43,21 @@ app.use("/notes", noteRoutes);
 app.use("/files", express.static("files"));
 
 //add note
-app.post("/add-note", async (req, res)=>{
+app.post("/add-note", async (req, res) => {
     const { title, content, tags } = req.body;
     const { user } = req;
 
-    if(!title){
+    if (!title) {
         return res.status(400).json({ error: true, message: "Title is required" })
     }
 
-    if(!content){
+    if (!content) {
         return res
-         .status(400)
-         .json({ error: true, message: "content is required" });
+            .status(400)
+            .json({ error: true, message: "content is required" });
     }
 
-    try{
+    try {
         const note = new Note({
             title,
             content,
@@ -72,7 +73,7 @@ app.post("/add-note", async (req, res)=>{
             message: "Note added successfullu",
         });
     }
-    catch(error){
+    catch (error) {
         return res.status(500).json({
             error: true,
             message: "Internal server Error",
@@ -81,27 +82,27 @@ app.post("/add-note", async (req, res)=>{
 });
 
 // edit note
-app.post("/edit-note/:noteId", async (req, res)=>{
+app.post("/edit-note/:noteId", async (req, res) => {
     const noteId = req.params.noteId;
     const { title, content, tags } = req.body;
     const { user } = req;
 
-    if(!title && !content && !tags){
+    if (!title && !content && !tags) {
         return res
-        .status(400)
-        .json({ error: true, message: "No changes provided" });
+            .status(400)
+            .json({ error: true, message: "No changes provided" });
     }
 
-    try{
+    try {
         const note = await Note.findOne({ _id: noteId, userId: user._id });
 
-        if(!note){
+        if (!note) {
             return res.status(404).json({ error: true, message: "Note not found" });
         }
 
-        if(title) note.title = title;
-        if(content) note.content = content;
-        if(tags) note.tags = tags;
+        if (title) note.title = title;
+        if (content) note.content = content;
+        if (tags) note.tags = tags;
 
         await note.save();
 
@@ -111,7 +112,7 @@ app.post("/edit-note/:noteId", async (req, res)=>{
             message: "Note updated successfully",
         });
     }
-    catch(error){
+    catch (error) {
         return res.status(500).json({
             error: true,
             message: "Internal server Error",
@@ -120,10 +121,10 @@ app.post("/edit-note/:noteId", async (req, res)=>{
 });
 
 //get all notes
-app.get("/get-all-notes/", async (req, res)=>{
+app.get("/get-all-notes/", async (req, res) => {
     const { user } = req;
 
-    try{
+    try {
         const notes = await Note.find({ userId: user._id })
 
         return res.json({
@@ -132,7 +133,34 @@ app.get("/get-all-notes/", async (req, res)=>{
             message: "All notes retrieved successfully",
         });
     }
-    catch(error){
+    catch (error) {
+        return res.status(500).json({
+            error: true,
+            message: "Internal server Error",
+        });
+    }
+});
+
+// Delete Note
+app.delete("/delete-note/:noteId", async (req, res) => {
+    const noteId = req.params.noteId;
+    const { user } = req;
+
+    try {
+        const note = await Note.findOne({ _id: noteId, userId: user._id });
+
+        if (!note) {
+            return res.status(404).json({ error: true, message: "Note not found" });
+        }
+
+        await Note.deleteOne({ _id: noteId, userId: user._id })
+
+        return res.json({
+            error: false,
+            message: "Note deleted successfully",
+        })
+    }
+    catch (error) {
         return res.status(500).json({
             error: true,
             message: "Internal server Error",
@@ -143,5 +171,8 @@ app.get("/get-all-notes/", async (req, res)=>{
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
+
+
+
 
 
