@@ -1,6 +1,6 @@
 import React from 'react'
 import { MdCreate, MdDelete } from 'react-icons/md';
-
+import moment from 'moment';
 
 const NoteCard = ({
     title,
