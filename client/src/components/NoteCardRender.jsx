@@ -1,8 +1,9 @@
 import AddEditNotes from "../pages/AddEditNotes";
 import NoteCard from "../pages/NoteCard";
 import Modal from "react-modal";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MdAdd } from "react-icons/md";
+import axios from "axios";
 Modal.setAppElement("#root");
 
 const NoteCardRender = () => {
@@ -12,37 +13,70 @@ const NoteCardRender = () => {
         data: null,
     });
 
+    const [allNotes, setAllNotes] = useState([]);
+
     const closeModal = () => {
         setOpenAddEditModal({ ...openAddEditModal, isShown: false });
     };
+
+    // Get all notes with authorization token
+    const getAllNotes = async () => {
+        try {
+            const token = localStorage.getItem("authToken"); // Retrieve the token from localStorage
+            if (!token) {
+                console.log("Token is missing");
+                return; // Token is missing, no need to proceed with the API request
+            }
+
+            const response = await axios.get("http://localhost:5000/get-all-notes", {
+                headers: {
+                    Authorization: `Bearer ${token}`, // Pass the token in the Authorization header
+                },
+            });
+
+            if (response.data && response.data.notes) {
+                setAllNotes(response.data.notes);
+            }
+        } catch (error) {
+            console.log("An unexpected error occurred. Please try again.");
+        }
+    };
+
+    useEffect(() => {
+        getAllNotes();
+        return () => {};
+    }, []);
 
     return (
         <>
             <div className="container mx-auto">
                 <div className="grid grid-cols-2 gap-4 mt-8">
-                    <NoteCard
-                        title="meeting on 7th april"
-                        date="3rd Apr 2024"
-                        content="Meeting on 7th april meeting on 7th april"
-                        tags="#Meeting"
-                        onEdit={() =>
-                            setOpenAddEditModal({
-                                isShown: true,
-                                type: "edit",
-                                data: { title: "meeting on 7th april", content: "Meeting details" },
-                            })
-                        }
-                        onDelete={() => console.log("Delete functionality triggered")}
-                    />
+                    {allNotes.map((item, index) => (
+                        <NoteCard
+                            key={item._id}
+                            title={item.title}
+                            date={item.createdOn}
+                            content={item.content}
+                            tags={item.tags}
+                            onEdit={() =>
+                                setOpenAddEditModal({
+                                    isShown: true,
+                                    type: "edit",
+                                    data: { title: "meeting on 7th april", content: "Meeting details" },
+                                })
+                            }
+                            onDelete={() => console.log("Delete functionality triggered")}
+                        />
+                    ))}
                 </div>
             </div>
 
             <button
                 className="w-16 h-16 flex items-center justify-center rounded-2xl bg-blue-500 absolute right-10 bottom-10"
-                onClick={()=> {
+                onClick={() => {
                     setOpenAddEditModal({ isShown: true, type: "add", data: null });
                 }}
-                >
+            >
                 <MdAdd className="text-[32px] text-white" />
             </button>
 
@@ -57,13 +91,13 @@ const NoteCardRender = () => {
                 contentLabel="Add or Edit Notes Modal"
                 className="w-[40%] max-h-3/4 bg-white rounded-md mx-auto mt-14 p-5 overflow-scroll"
             >
-                <AddEditNotes 
+                <AddEditNotes
                     type={openAddEditModal.type}
                     noteData={openAddEditModal.data}
-                    onClose={()=> {
+                    onClose={() => {
                         setOpenAddEditModal({ isShown: false, type: "add", data: null });
                     }}
-                 />
+                />
             </Modal>
         </>
     );

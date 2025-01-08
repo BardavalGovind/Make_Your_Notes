@@ -3,7 +3,7 @@ const router = express.Router();
 const authController = require("../Controllers/AuthController")
 const multer = require('multer')
 const dotenv = require('dotenv')
-const cloudinary = require('cloudinary')
+const cloudinary = require('cloudinary');
 
 dotenv.config();
 

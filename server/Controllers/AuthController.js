@@ -4,6 +4,8 @@ const User = require('../models/User');
 const bcrypt = require("bcrypt");
 const multer = require('multer');
 const cloudinary = require('cloudinary');
+const jwt = require('jsonwebtoken');
+
 
 dotenv.config();
 
@@ -65,28 +67,33 @@ const signup = async (req, res)=>{
         console.log(error);
     }
 };
-const login = async (req, res)=>{
-    try{
+
+const login = async (req, res) => {
+    try {
         const { userEmail, userPassword } = req.body;
 
+        // Find user by email
         const user = await User.findOne({ userEmail });
-        if(user){
-            const passwordMatch = await bcrypt.compare(userPassword, user.userPassword);
-            if(passwordMatch){
-                console.log(user);
-                return res.json(user);
-            }
-            else{
-                return res.json({ status: "Error", getUser: false });
-            }
+        if (!user) {
+            return res.status(400).json({ status: "Error", message: "User not found" });
         }
-        else{
-            return res.json({ status: "Error", getUser: false});
+
+        // Compare the provided password with the hashed password
+        const passwordMatch = await bcrypt.compare(userPassword, user.userPassword);
+        if (!passwordMatch) {
+            return res.status(400).json({ status: "Error", message: "Invalid credentials" });
         }
+
+        // Generate JWT token
+        const payload = { _id: user._id, userEmail: user.userEmail };
+        const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+        // Send token as response
+        return res.status(200).json({ status: "OK", token });
+    } catch (error) {
+        console.error(error);
+        return res.status(400).json({ error: error.message });
     }
-    catch(error){
-        res.status(400).json({ error: error.message })
-    }
-}
+};
 
 module.exports = { signup, login };

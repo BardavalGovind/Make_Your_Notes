@@ -62,7 +62,7 @@ const Navbar = () => {
               {isAuthenticated ? (
                 <>
                   <Link
-                    to="/notecard"
+                    to="/notecardrender"
                     className="w-full hover:bg-blue-600 p-3 rounded transition duration-300"
                   >
                     Go to NoteCard
@@ -121,7 +121,7 @@ const Navbar = () => {
           {isAuthenticated ? (
             <>
             
-              <Link to="/notecard">
+              <Link to="/notecardrender">
                 <button className="rounded-xl bg-blue-500 px-5 py-2 font-semibold hover:bg-blue-700">
                 Go to NoteCard
                 </button>

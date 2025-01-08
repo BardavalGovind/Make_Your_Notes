@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const authRoutes = require("./routes/auth");
 const noteRoutes = require("./routes/notes")
 const Note = require("./models/CreateNote");
+const authMiddleware = require('./middleware/jwt')
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -39,11 +40,11 @@ app.get('/', (req, res) => {
 });
 
 app.use("/auth", authRoutes);
-app.use("/notes", noteRoutes);
+app.use("/notes", authMiddleware, noteRoutes);
 app.use("/files", express.static("files"));
 
 //add note
-app.post("/add-note", async (req, res) => {
+app.post("/add-note", authMiddleware, async (req, res) => {
     const { title, content, tags } = req.body;
     const { user } = req;
 
@@ -82,7 +83,7 @@ app.post("/add-note", async (req, res) => {
 });
 
 // edit note
-app.post("/edit-note/:noteId", async (req, res) => {
+app.post("/edit-note/:noteId", authMiddleware, async (req, res) => {
     const noteId = req.params.noteId;
     const { title, content, tags } = req.body;
     const { user } = req;
@@ -121,8 +122,9 @@ app.post("/edit-note/:noteId", async (req, res) => {
 });
 
 //get all notes
-app.get("/get-all-notes/", async (req, res) => {
+app.get("/get-all-notes", authMiddleware, async (req, res) => {
     const { user } = req;
+    console.log(user);
 
     try {
         const notes = await Note.find({ userId: user._id })
@@ -142,7 +144,7 @@ app.get("/get-all-notes/", async (req, res) => {
 });
 
 // Delete Note
-app.delete("/delete-note/:noteId", async (req, res) => {
+app.delete("/delete-note/:noteId", authMiddleware, async (req, res) => {
     const noteId = req.params.noteId;
     const { user } = req;
 

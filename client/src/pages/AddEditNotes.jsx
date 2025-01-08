@@ -1,10 +1,11 @@
-import React from 'react'
+import React from 'react';
 import TagInput from '../components/TagInput';
 import { useState } from "react";
 import { MdClose } from "react-icons/md";
+import axios from 'axios';
 
 
-const AddEditNotes = ({ noteData, type, onClose }) => {
+const AddEditNotes = ({ noteData, type, getAllNotes, onClose }) => {
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -14,7 +15,40 @@ const AddEditNotes = ({ noteData, type, onClose }) => {
 
   // add note
   const addNewNote = async ()=>{
+      try{
+        const token = localStorage.getItem('authToken');
 
+        const response = await axios.post(
+          "http://localhost:5000/add-note", 
+          {
+            title,
+            content,
+            tags,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+      );
+      console.log(response);
+
+        if(response.data && response.data.note){
+            setError(null);
+            alert(response.data.message);
+            getAllNotes();
+            onClose();
+        }
+      }
+      catch(error){
+          if(
+            error.response &&
+            error.response.data &&
+            error.response.data.message
+          ){
+              setError(error.response.data.message);
+          }
+      }
   }
 
   // edit note

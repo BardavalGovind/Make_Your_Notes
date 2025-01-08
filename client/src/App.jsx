@@ -1,5 +1,7 @@
 import React from 'react';
 import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
+import Login from './pages/Login';
+import Signup from './pages/Signup';
 import Home from './pages/Home';
 import Header from './components/Header';
 import Search from './pages/Search';
@@ -7,12 +9,8 @@ import About from './pages/About';
 import Upload from './pages/Upload';
 import Faq from './pages/Faq';
 import Profile from './pages/Profile';
-import Login from './pages/Login';
-import Signup from './pages/Signup';
 import { useSelector } from 'react-redux';
 import NoteCardRender from './components/NoteCardRender';
-
-
 
 
 const App = () => {
@@ -30,14 +28,14 @@ const App = () => {
               <Route path='/profile' element={<Profile/>} />
               <Route path='/upload' element={<Upload/>} />
               <Route path='/search' element={<Search/>} />
-              <Route path='/notecard' element={<NoteCardRender/>} />
-              
+              <Route path='/notecardrender' element={<NoteCardRender/>} />
             </>
           ) : (
             <>
-              <Route path='/login' element={<Login/>} />
-              <Route path='/signup' element={<Signup/>} />
+              <Route path='/login' element={<Login />}/>
+              <Route path='/signup' element={<Signup />} />
             </>
+  
           )}
           <Route path='/about' element={<About/>} />
           <Route path='/faq' element={<Faq/>} />
