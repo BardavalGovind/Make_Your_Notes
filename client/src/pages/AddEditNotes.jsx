@@ -5,11 +5,12 @@ import { MdClose } from "react-icons/md";
 import axios from 'axios';
 
 
+
 const AddEditNotes = ({ noteData, type, getAllNotes, onClose }) => {
 
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [tags, setTags] = useState([])
+  const [title, setTitle] = useState(noteData?.title || "");
+  const [content, setContent] = useState(noteData?.content || "");
+  const [tags, setTags] = useState(noteData?.tags || [])
 
   const [error, setError] = useState(null);
 
@@ -53,8 +54,39 @@ const AddEditNotes = ({ noteData, type, getAllNotes, onClose }) => {
 
   // edit note
   const editNote = async ()=>{
-    
-  }
+    const noteId = noteData._id;
+    const token = localStorage.getItem('authToken');
+
+    try{
+      const response = await axios.put(
+        "http://localhost:5000/edit-note/" + noteId, 
+        {
+          title,
+          content,
+          tags,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      if(response.data && response.data.note){
+          setError(null);
+          alert(response.data.message);
+          getAllNotes();
+          onClose();
+      }
+    }
+    catch(error){
+        if(
+          error.response &&
+          error.response.data &&
+          error.response.data.message
+        ){
+            setError(error.response.data.message);
+        }
+    }
+  };
 
   const handleAddNote = ()=>{
     if(!title){
@@ -75,12 +107,12 @@ const AddEditNotes = ({ noteData, type, getAllNotes, onClose }) => {
     else{
       addNewNote();
     }
-  }
+  };
   return (
-
-
     <div className='relative'>
-      <button className='w-10 h-10 rounded-full flex items-center justify-center absolute -top-3 -right-3 hover:bg-slate-500' onClick={onClose}>
+      <button
+       className='w-10 h-10 rounded-full flex items-center justify-center absolute -top-3 -right-3 hover:bg-slate-500'
+        onClick={onClose}>
         <MdClose className="text-xl text-slate-400"/>
       </button>
 
@@ -118,11 +150,11 @@ const AddEditNotes = ({ noteData, type, getAllNotes, onClose }) => {
        className='bg-blue-500 font-medium mt-5 p-3 my-1 w-full rounded text-sm text-white'
        onClick={handleAddNote}
       >
-        ADD
+        {type === "edit" ? "UPDATE" : "ADD"}
       </button>
     </div>
     
   );
-}
+};
 
 export default AddEditNotes;

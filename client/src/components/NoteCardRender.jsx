@@ -5,6 +5,9 @@ import { useState, useEffect } from "react";
 import { MdAdd } from "react-icons/md";
 import axios from "axios";
 Modal.setAppElement("#root");
+import { useNavigate } from "react-router-dom";
+
+
 
 const NoteCardRender = () => {
     const [openAddEditModal, setOpenAddEditModal] = useState({
@@ -15,9 +18,17 @@ const NoteCardRender = () => {
 
     const [allNotes, setAllNotes] = useState([]);
 
+    const navigate = useNavigate();
+
+    const handleEdit = (noteDetails)=>{
+        setOpenAddEditModal({ isShown: true, data: noteDetails, type: "edit" });
+    }
+
     const closeModal = () => {
         setOpenAddEditModal({ ...openAddEditModal, isShown: false });
     };
+
+
 
     // Get all notes with authorization token
     const getAllNotes = async () => {
@@ -58,13 +69,7 @@ const NoteCardRender = () => {
                             date={item.createdOn}
                             content={item.content}
                             tags={item.tags}
-                            onEdit={() =>
-                                setOpenAddEditModal({
-                                    isShown: true,
-                                    type: "edit",
-                                    data: { title: "meeting on 7th april", content: "Meeting details" },
-                                })
-                            }
+                            onEdit={() => handleEdit(item)}
                             onDelete={() => console.log("Delete functionality triggered")}
                         />
                     ))}
@@ -85,7 +90,19 @@ const NoteCardRender = () => {
                 onRequestClose={closeModal}
                 style={{
                     overlay: {
-                        backgroundColor: "rgba(0, 0, 0, 0.2)",
+                        backgroundColor: "rgba(0, 0, 0, 0.5)",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                    },
+                    content: {
+                        width: "40%",
+                        height: "75%",
+                        margin: "auto",
+                        borderRadius: "10px",
+                        padding: "20px",
+                        overflow: "auto",
+                        position: "relative",
                     },
                 }}
                 contentLabel="Add or Edit Notes Modal"
