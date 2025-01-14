@@ -83,7 +83,7 @@ app.post("/add-note", authMiddleware, async (req, res) => {
 });
 
 // edit note
-app.post("/edit-note/:noteId", authMiddleware, async (req, res) => {
+app.put("/edit-note/:noteId", authMiddleware, async (req, res) => {
     const noteId = req.params.noteId;
     const { title, content, tags } = req.body;
     const { user } = req;
