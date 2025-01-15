@@ -5,8 +5,7 @@ import { MdClose } from "react-icons/md";
 import axios from 'axios';
 
 
-
-const AddEditNotes = ({ noteData, type, getAllNotes, onClose }) => {
+const AddEditNotes = ({ noteData, type, getAllNotes, onClose, showMessage }) => {
 
   const [title, setTitle] = useState(noteData?.title || "");
   const [content, setContent] = useState(noteData?.content || "");
@@ -36,7 +35,7 @@ const AddEditNotes = ({ noteData, type, getAllNotes, onClose }) => {
 
         if(response.data && response.data.note){
             setError(null);
-            alert(response.data.message);
+            showMessage("Note Added Successfully")
             getAllNotes();
             onClose();
         }
@@ -72,7 +71,7 @@ const AddEditNotes = ({ noteData, type, getAllNotes, onClose }) => {
 
       if(response.data && response.data.note){
           setError(null);
-          alert(response.data.message);
+          showMessage("Note Updated Successfully");
           getAllNotes();
           onClose();
       }

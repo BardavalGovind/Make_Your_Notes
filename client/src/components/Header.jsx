@@ -80,12 +80,12 @@ const Navbar = () => {
                     Upload
                   </Link>
                   <Link to="/profile">
-                    <button className="w-full px-5 py-2 font-semibold hover:bg-blue-700 transition duration-300">
+                    <button className="w-full hover:bg-blue-600 p-3 rounded transition duration-300 text-left">
                       Profile
                     </button>
                   </Link>
                   <button
-                    className="w-full rounded-xl px-5 py-2 font-semibold hover:bg-blue-700 transition duration-300"
+                    className="w-full hover:bg-blue-600 p-3 rounded transition duration-300 text-left"
                     onClick={handleLogout}
                   >
                     Logout
@@ -94,12 +94,12 @@ const Navbar = () => {
               ) : (
                 <>
                   <Link to="/login">
-                    <button className="w-full rounded-xl px-5 py-2 font-semibold hover:bg-blue-700 transition duration-300">
+                    <button className="w-full rounded-xl px-5 py-2 font-semibold hover:bg-blue-700 transition duration-300 text-left">
                       Login
                     </button>
                   </Link>
                   <Link to="/signup">
-                    <button className="w-full rounded-xl px-5 py-2 font-semibold hover:bg-blue-700 transition duration-300">
+                    <button className="w-full rounded-xl px-5 py-2 font-semibold hover:bg-blue-700 transition duration-300 text-left">
                       Signup
                     </button>
                   </Link>

@@ -6,14 +6,21 @@ import { MdAdd } from "react-icons/md";
 import axios from "axios";
 Modal.setAppElement("#root");
 import { useNavigate } from "react-router-dom";
-
-
+import Message from "./FeedbackMessage/Message";
+import EmptyCard from "./EmptyCard/EmptyCard";
+import AddNotesImg from "../images/addnote.jpg";
 
 const NoteCardRender = () => {
     const [openAddEditModal, setOpenAddEditModal] = useState({
         isShown: false,
         type: "add",
         data: null,
+    });
+
+    const [showMsg, setShowMsg] = useState({
+        isShown: false,
+        message: "",
+        type: "add",
     });
 
     const [allNotes, setAllNotes] = useState([]);
@@ -28,6 +35,20 @@ const NoteCardRender = () => {
         setOpenAddEditModal({ ...openAddEditModal, isShown: false });
     };
 
+    const showMessage = (message, type)=>{
+        setShowMsg({
+            isShown: true,
+            message,
+            type,
+        });
+    };
+
+    const handleCloseMsg = ()=>{
+        setShowMsg((prev) => ({
+            ...prev,
+            isShown: false,
+        }));
+    };
 
 
     // Get all notes with authorization token
@@ -53,6 +74,40 @@ const NoteCardRender = () => {
         }
     };
 
+    //Delete Note
+    const deleteNote = async (data) => {
+
+        const noteId = data._id;
+        const token = localStorage.getItem("authToken");
+    
+        setAllNotes((prevNotes) => prevNotes.filter((note) => note._id !== noteId));
+
+        try{
+           const response = await axios.delete(
+            `http://localhost:5000/delete-note/${noteId}`, {
+                headers: { Authorization: `Bearer ${token}` },
+              }
+            );
+              
+    
+          if(response.data && !response.data.error){
+              showMessage("Note Deleted Successfully", 'delete');
+              setError(null);
+            //  await getAllNotes();
+            
+          }
+        }
+        catch(error){
+            if(
+              error.response &&
+              error.response.data &&
+              error.response.data.message
+            ){
+                console.log("An unexpected error occured. Please try again.");
+            }
+        }
+    }
+
     useEffect(() => {
         getAllNotes();
         return () => {};
@@ -61,6 +116,7 @@ const NoteCardRender = () => {
     return (
         <>
             <div className="container mx-auto">
+                {allNotes.length > 0 ? (
                 <div className="grid grid-cols-2 gap-4 mt-8">
                     {allNotes.map((item, index) => (
                         <NoteCard
@@ -70,10 +126,13 @@ const NoteCardRender = () => {
                             content={item.content}
                             tags={item.tags}
                             onEdit={() => handleEdit(item)}
-                            onDelete={() => console.log("Delete functionality triggered")}
+                            onDelete={() => deleteNote(item)}
                         />
                     ))}
                 </div>
+                ) : (
+                    <EmptyCard imgSrc={AddNotesImg} message={`Start creating your first note! Click on notes image to preapare notes. Let's get started!`}/>
+                )}
             </div>
 
             <button
@@ -88,24 +147,6 @@ const NoteCardRender = () => {
             <Modal
                 isOpen={openAddEditModal.isShown}
                 onRequestClose={closeModal}
-                style={{
-                    overlay: {
-                        backgroundColor: "rgba(0, 0, 0, 0.5)",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                    },
-                    content: {
-                        width: "40%",
-                        height: "75%",
-                        margin: "auto",
-                        borderRadius: "10px",
-                        padding: "20px",
-                        overflow: "auto",
-                        position: "relative",
-                    },
-                }}
-                contentLabel="Add or Edit Notes Modal"
                 className="w-[40%] max-h-3/4 bg-white rounded-md mx-auto mt-14 p-5 overflow-scroll"
             >
                 <AddEditNotes
@@ -115,8 +156,16 @@ const NoteCardRender = () => {
                         setOpenAddEditModal({ isShown: false, type: "add", data: null });
                     }}
                     getAllNotes={getAllNotes}
+                    showMessage={showMessage}
                 />
             </Modal>
+
+            <Message
+                isShown = {showMsg.isShown}
+                message={showMsg.message}
+                type={showMsg.type}
+                onClose={handleCloseMsg}
+            />
         </>
     );
 };
