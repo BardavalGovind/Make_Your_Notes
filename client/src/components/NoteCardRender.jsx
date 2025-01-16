@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import Message from "./FeedbackMessage/Message";
 import EmptyCard from "./EmptyCard/EmptyCard";
 import AddNotesImg from "../images/addnote.jpg";
+import NotesSearch from "./NotesSearch";
 
 const NoteCardRender = () => {
     const [openAddEditModal, setOpenAddEditModal] = useState({
@@ -24,6 +25,8 @@ const NoteCardRender = () => {
     });
 
     const [allNotes, setAllNotes] = useState([]);
+    const [isSearch, setIsSearch] = useState(false);
+    const [searchQuery, setSearchQuery] = useState("");
 
     const navigate = useNavigate();
 
@@ -108,6 +111,40 @@ const NoteCardRender = () => {
         }
     }
 
+    //search for a Note
+    const onSearchNote = async (query)=>{
+        if(!query){
+            console.log("Search query is empty, fetching all notes");
+            getAllNotes();
+        }
+        else{
+            try{
+
+            const token = localStorage.getItem("authToken"); 
+
+            if (!token) {
+                console.log("Token is missing");
+                return;
+            }
+
+            const response = await axios.get(
+                "http://localhost:5000/search-notes", {
+                    params: { query },
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+
+                if(response.data && response.data.notes){
+                    setIsSearch(true);
+                    setAllNotes(response.data.notes);
+                }
+            }
+        
+        catch(error){
+            console.log(error);
+        }
+        }
+    };
+
     useEffect(() => {
         getAllNotes();
         return () => {};
@@ -115,7 +152,13 @@ const NoteCardRender = () => {
 
     return (
         <>
+            
             <div className="container mx-auto">
+
+                {/* Search Bar */}
+                <NotesSearch onSearch={onSearchNote}/>
+
+
                 {allNotes.length > 0 ? (
                 <div className="grid grid-cols-2 gap-4 mt-8">
                     {allNotes.map((item, index) => (
