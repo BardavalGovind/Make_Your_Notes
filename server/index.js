@@ -171,8 +171,8 @@ app.delete("/delete-note/:noteId", authMiddleware, async (req, res) => {
 });
 
 // Search Notes
-app.get("/search-notes/", authMiddleware, async (req, res)=>{
-    const { user } = req.user;
+app.get("/search-notes", authMiddleware, async (req, res)=>{
+    const { user } = req;
     const { query } = req.query;
 
     if(!query){

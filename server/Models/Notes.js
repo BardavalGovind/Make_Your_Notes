@@ -1,6 +1,6 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 
-const NotesSchema = mongoose.Schema({
+const NoteSchema = mongoose.Schema({
     fileName: {
         type: String,
         required: true,
@@ -22,8 +22,7 @@ const NotesSchema = mongoose.Schema({
         ref: 'User',
         required: true,
     },
-    
+
 });
 
-module.exports = mongoose.model("Notes", NotesSchema)
-
+module.exports = mongoose.model("Notes", NoteSchema);
