@@ -8,8 +8,8 @@ const userSlice = createSlice({
     },
     reducers: {
         setUserData: (state, action)=>{
-            state.userData = action.payload,
-            state.isAuthenticated = true
+            state.userData = action.payload;
+            state.isAuthenticated = true;
         },
         removeUserData: (state, action)=>{
             state.userData = null;
