@@ -14,16 +14,16 @@ const uploadNote = async (req, res) => {
         const fileName = req.body.title;
         const fileDescription = req.body.description;
         const tags = req.body.tags;
-        const file = req.file;
+        const file = req.file.filename;
 
-        const uploadedBy = mongoose.Types.ObjectId(req.body.userId);
+        const uploadedBy = req.body.userId;
         console.log(uploadedBy);
 
         const newFile = new Notes({
             fileName: fileName,
             fileDescription: fileDescription,
             tags: tags,
-            files: file.buffer,
+            files: file,
             uploadedBy: uploadedBy
         });
 
