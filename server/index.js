@@ -40,7 +40,7 @@ app.get('/', (req, res) => {
 });
 
 app.use("/auth", authRoutes);
-app.use("/notes", authMiddleware, noteRoutes);
+app.use("/notes", noteRoutes);
 app.use("/files", express.static("files"));
 
 //add note
