@@ -36,7 +36,8 @@ const Signup = () => {
         },
       },
     );
-    console.log("Data: ", result);
+    const userProfileImage = result.data.userProfileImage;
+    console.log("User profile image:", userProfileImage);
     alert("User entry saved in database");
   }
   catch(error){
@@ -119,6 +120,7 @@ const Signup = () => {
             onChange={(e) => setUserName(e.target.value)}
           />
         </div>
+
         <div className="flex flex-col items-start justify-center">
           <label className="font-bold" htmlFor="userPassword">Password</label>
           <input

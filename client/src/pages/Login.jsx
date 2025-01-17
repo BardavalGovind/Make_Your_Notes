@@ -30,9 +30,11 @@ const Login = () => {
       const result = await axios.post("http://localhost:5000/auth/login", user);
       console.log("User logged in successfully: ", result);
 
-      localStorage.setItem("authToken", result.data.token);
+      // localStorage.setItem("authToken", result.data.token);
 
       dispatch(setUserData(result.data));
+      console.log("User Data in Redux after dispatch: ", result.data);
+
       navigate("/"); // Redirect to home page
     } catch (error) {
       console.log("Cannot login the user: ", error);

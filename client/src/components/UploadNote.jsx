@@ -1,21 +1,29 @@
-
 import axios from "axios";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import { selectUserData } from '../Redux/slices/user-slice';
 
 const UploadNote = () => {
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [tags, setTags] = useState("");
-  const [file, setFile] = useState("");
+  const [file, setFile] = useState(null);
+  const [error, setError] = useState("");
 
   const user = useSelector((state) => state.user.userData);
-  const userId = user._id;
+  const userId = user?._id;
+
+  console.log("user id is: ", userId);
 
   const submitFile = async (e) => {
     try {
       e.preventDefault();
+
+      if (!userId) {
+        setError("User is not logged in.");
+        return;
+      }
 
       const formData = new FormData();
       formData.append("title", title);
@@ -24,7 +32,7 @@ const UploadNote = () => {
       formData.append("file", file);
       formData.append("userId", userId);
 
-      console.log(formData);
+      console.log(title, description, tags, file, userId);
 
       const result = await axios.post(
         "http://localhost:5000/notes/upload",
@@ -38,9 +46,14 @@ const UploadNote = () => {
       console.log("Data: ", result);
       alert("Notes Uploaded Successfully");
 
+      setTitle("");
+      setDescription("");
+      setTags("");
+      setFile(null);
+      setError("");
+
     } catch (error) {
       console.log("Failed to submit file: ", error);
-      console.log(error.response?.data); 
     }
   };
 

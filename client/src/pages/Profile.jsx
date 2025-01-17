@@ -6,14 +6,31 @@ import axios from "axios";
 const Profile = () => {
 
   const user = useSelector((state) => state.user.userData);
+  console.log("User profile image:", user.profileImage);
+  console.log("user is in profile: ", user);
 
   const [userFiles, setUserFiles] = useState([]);
 
   const userId = user._id;
 
+  // useEffect(() => {
+  //   const getUserFiles = async () => {
+  //     const result = await axios.get(`http://localhost:5000/notes/getFiles/${userId}`, {
+  //       // headers: {
+  //       //   Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+  //       // },
+  //     });
+
+  //     console.log(result.data);
+  //     setUserFiles(result.data.data);
+  //   };
+
+  //   getUserFiles();
+  // }, [userId]);
+
   useEffect(() => {
     const getUserFiles = async () => {
-      const result = await axios.get(`http://localhost:6969/notes/getFiles/${userId}`);
+      const result = await axios.get(`http://localhost:5000/notes/getFiles/${userId}`);
       console.log(result.data);
       setUserFiles(result.data.data);
     };
@@ -62,7 +79,7 @@ const Profile = () => {
         <div className="grid grid-cols-1 gap-5 p-4 sm:grid-cols-2 md:grid-cols-3">
           {userFiles.map((file) => (
             <a
-              href={`http://localhost:6969/files/${file.files}`}
+              href={`http://localhost:5000/files/${file.files}`}
               key={file._id}
               className="mb-3 flex h-[35px] max-w-[250px] items-center justify-between gap-10 rounded-xl border border-black px-4"
               target="_blank"
