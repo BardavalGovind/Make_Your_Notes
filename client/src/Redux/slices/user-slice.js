@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const userSlice = createSlice({
     name: "user",
@@ -7,11 +7,11 @@ const userSlice = createSlice({
         isAuthenticated: false,
     },
     reducers: {
-        setUserData: (state, action)=>{
+        setUserData: (state, action) => {
             state.userData = action.payload;
             state.isAuthenticated = true;
         },
-        removeUserData: (state, action)=>{
+        removeUserData: (state, action) => {
             state.userData = null;
             state.isAuthenticated = false;
         },
@@ -19,7 +19,7 @@ const userSlice = createSlice({
 });
 
 export const { setUserData, removeUserData } = userSlice.actions;
-export const selectUserData = (state)=> state.user.userData;
-export const selectIsAuthenticated = (state)=> state.user.isAuthenticated;
+export const selectUserData = (state) => state.user.userData;
+export const selectIsAuthenticated = (state) => state.user.isAuthenticated;
 
 export default userSlice.reducer;

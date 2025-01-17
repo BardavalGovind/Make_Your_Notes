@@ -1,3 +1,4 @@
+
 import axios from "axios";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
@@ -7,15 +8,9 @@ const UploadNote = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [tags, setTags] = useState("");
-  const [file, setFile] = useState(null);
+  const [file, setFile] = useState("");
 
   const user = useSelector((state) => state.user.userData);
-  console.log(user);
-
-  if(!user){
-    console.error("User is not logged in");
-    return;
-  }
   const userId = user._id;
 
   const submitFile = async (e) => {
@@ -29,17 +24,7 @@ const UploadNote = () => {
       formData.append("file", file);
       formData.append("userId", userId);
 
-      // console.log(formData);
-      for (let key of formData.keys()) {
-        console.log(`${key}: ${formData.get(key)}`);
-      }
-      
-      const token = localStorage.getItem('authToken');
-      if (!token) {
-        console.error("No token found, user is not authenticated");
-        alert("You need to log in first");
-        return; // Prevent the request from going through
-      }
+      console.log(formData);
 
       const result = await axios.post(
         "http://localhost:5000/notes/upload",
@@ -47,8 +32,6 @@ const UploadNote = () => {
         {
           headers: {
             "Content-Type": "multipart/form-data",
-              Authorization: `Bearer ${token}`,
-            
           },
         },
       );
@@ -57,13 +40,12 @@ const UploadNote = () => {
 
     } catch (error) {
       console.log("Failed to submit file: ", error);
+      console.log(error.response?.data); 
     }
   };
 
   return (
-    <form className="flex h-full w-full max-w-[770px] flex-col items-center 
-    justify-start  p-5 md:border md:border-gray-300 lg:justify-center" 
-    onSubmit={submitFile}>
+    <form className="flex h-full w-full max-w-[770px] flex-col items-center justify-start  p-5 md:border md:border-gray-300 lg:justify-center" onSubmit={submitFile}>
       <h1 className="mb-5 text-2xl font-black">Upload Your Notes</h1>
       <div className="mb-5 w-full max-w-[550px] ">
         <input
@@ -138,6 +120,3 @@ const UploadNote = () => {
 };
 
 export default UploadNote;
-
-
-
