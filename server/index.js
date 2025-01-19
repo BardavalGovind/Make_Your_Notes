@@ -3,11 +3,10 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-
 const authRoutes = require("./routes/auth");
 const noteRoutes = require("./routes/notes")
 const Note = require("./models/CreateNote");
-const authMiddleware = require('./middleware/jwt')
+
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -44,165 +43,166 @@ app.use("/notes", noteRoutes);
 app.use("/files", express.static("files"));
 
 //add note
-app.post("/add-note", authMiddleware, async (req, res) => {
-    const { title, content, tags } = req.body;
-    const { user } = req;
+// app.post("/add-note", async (req, res) => {
+//     const { title, content, tags } = req.body;
+//     const { user } = req;
 
-    if (!title) {
-        return res.status(400).json({ error: true, message: "Title is required" })
-    }
+//     if (!title) {
+//         return res.status(400).json({ error: true, message: "Title is required" })
+//     }
 
-    if (!content) {
-        return res
-            .status(400)
-            .json({ error: true, message: "content is required" });
-    }
+//     if (!content) {
+//         return res
+//             .status(400)
+//             .json({ error: true, message: "content is required" });
+//     }
 
-    try {
-        const note = new Note({
-            title,
-            content,
-            tags: tags || [],
-            userId: user._id,
-        });
+//     try {
+//         const note = new Note({
+//             title,
+//             content,
+//             tags: tags || [],
+//             userId: user._id,
+//         });
 
-        await note.save();
+//         await note.save();
 
-        return res.json({
-            error: false,
-            note,
-            message: "Note added successfullu",
-        });
-    }
-    catch (error) {
-        return res.status(500).json({
-            error: true,
-            message: "Internal server Error",
-        });
-    }
-});
+//         return res.json({
+//             error: false,
+//             note,
+//             message: "Note added successfully",
+//         });
+//     }
+//     catch (error) {
+//         return res.status(500).json({
+//             error: true,
+//             message: "Internal server Error",
+//         });
+//     }
+// });
 
-// edit note
-app.put("/edit-note/:noteId", authMiddleware, async (req, res) => {
-    const noteId = req.params.noteId;
-    const { title, content, tags } = req.body;
-    const { user } = req;
 
-    if (!title && !content && !tags) {
-        return res
-            .status(400)
-            .json({ error: true, message: "No changes provided" });
-    }
+// // edit note
+// app.put("/edit-note/:noteId", Authmiddleware, async (req, res) => {
+//     const noteId = req.params.noteId;
+//     const { title, content, tags } = req.body;
+//     const { user } = req;
 
-    try {
-        const note = await Note.findOne({ _id: noteId, userId: user._id });
+//     if (!title && !content && !tags) {
+//         return res
+//             .status(400)
+//             .json({ error: true, message: "No changes provided" });
+//     }
 
-        if (!note) {
-            return res.status(404).json({ error: true, message: "Note not found" });
-        }
+//     try {
+//         const note = await Note.findOne({ _id: noteId, userId: user._id });
 
-        if (title) note.title = title;
-        if (content) note.content = content;
-        if (tags) note.tags = tags;
+//         if (!note) {
+//             return res.status(404).json({ error: true, message: "Note not found" });
+//         }
 
-        await note.save();
+//         if (title) note.title = title;
+//         if (content) note.content = content;
+//         if (tags) note.tags = tags;
 
-        return res.json({
-            error: false,
-            note,
-            message: "Note updated successfully",
-        });
-    }
-    catch (error) {
-        return res.status(500).json({
-            error: true,
-            message: "Internal server Error",
-        });
-    }
-});
+//         await note.save();
 
-//get all notes
-app.get("/get-all-notes", authMiddleware, async (req, res) => {
-    const { user } = req;
-    console.log(user);
+//         return res.json({
+//             error: false,
+//             note,
+//             message: "Note updated successfully",
+//         });
+//     }
+//     catch (error) {
+//         return res.status(500).json({
+//             error: true,
+//             message: "Internal server Error",
+//         });
+//     }
+// });
 
-    try {
-        const notes = await Note.find({ userId: user._id })
+// //get all notes
+// app.get("/get-all-notes", Authmiddleware, async (req, res) => {
+//     const { user } = req;
+//     console.log(user);
 
-        return res.json({
-            error: false,
-            notes,
-            message: "All notes retrieved successfully",
-        });
-    }
-    catch (error) {
-        return res.status(500).json({
-            error: true,
-            message: "Internal server Error",
-        });
-    }
-});
+//     try {
+//         const notes = await Note.find({ userId: user._id })
 
-// Delete Note
-app.delete("/delete-note/:noteId", authMiddleware, async (req, res) => {
-    const noteId = req.params.noteId;
-    const { user } = req;
+//         return res.json({
+//             error: false,
+//             notes,
+//             message: "All notes retrieved successfully",
+//         });
+//     }
+//     catch (error) {
+//         return res.status(500).json({
+//             error: true,
+//             message: "Internal server Error",
+//         });
+//     }
+// });
 
-    try {
-        const note = await Note.findOne({ _id: noteId, userId: user._id });
+// // Delete Note
+// app.delete("/delete-note/:noteId", Authmiddleware, async (req, res) => {
+//     const noteId = req.params.noteId;
+//     const { user } = req;
 
-        if (!note) {
-            return res.status(404).json({ error: true, message: "Note not found" });
-        }
+//     try {
+//         const note = await Note.findOne({ _id: noteId, userId: user._id });
 
-        await Note.deleteOne({ _id: noteId, userId: user._id })
+//         if (!note) {
+//             return res.status(404).json({ error: true, message: "Note not found" });
+//         }
 
-        return res.json({
-            error: false,
-            message: "Note deleted successfully",
-        })
-    }
-    catch (error) {
-        return res.status(500).json({
-            error: true,
-            message: "Internal server Error",
-        });
-    }
-});
+//         await Note.deleteOne({ _id: noteId, userId: user._id })
 
-// Search Notes
-app.get("/search-notes", authMiddleware, async (req, res)=>{
-    const { user } = req;
-    const { query } = req.query;
+//         return res.json({
+//             error: false,
+//             message: "Note deleted successfully",
+//         })
+//     }
+//     catch (error) {
+//         return res.status(500).json({
+//             error: true,
+//             message: "Internal server Error",
+//         });
+//     }
+// });
 
-    if(!query){
-        return res
-        .status(400)
-        .json({ error: true, message: "Search query is required " });
-    }
+// // Search Notes
+// app.get("/search-notes", Authmiddleware, async (req, res)=>{
+//     const { user } = req;
+//     const { query } = req.query;
 
-    try{
-        const matchingNotes = await Note.find({
-            userId: user._id,
-            $or: [
-                { title: { $regex: new RegExp(query, "i") } },
-                { content: { $regex: new RegExp(query, "i") } },
-            ],
-        });
+//     if(!query){
+//         return res
+//         .status(400)
+//         .json({ error: true, message: "Search query is required " });
+//     }
 
-        return res.json({
-            error: false,
-            notes: matchingNotes,
-            message: "Notes matching the search query retrieved successfully",
-        });
-    }
-    catch(error){
-        return res.status(500).json({
-            error: true,
-            message: "Internal Server Error",
-        });
-    }
-})
+//     try{
+//         const matchingNotes = await Note.find({
+//             userId: user._id,
+//             $or: [
+//                 { title: { $regex: new RegExp(query, "i") } },
+//                 { content: { $regex: new RegExp(query, "i") } },
+//             ],
+//         });
+
+//         return res.json({
+//             error: false,
+//             notes: matchingNotes,
+//             message: "Notes matching the search query retrieved successfully",
+//         });
+//     }
+//     catch(error){
+//         return res.status(500).json({
+//             error: true,
+//             message: "Internal Server Error",
+//         });
+//     }
+// })
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

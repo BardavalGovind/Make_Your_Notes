@@ -6,9 +6,10 @@ const NotesSearch = ({ onSearch }) => {
 
     const handleSearch = () => {
         console.log("Search button clicked with query:", searchQuery);
-        if(searchQuery){
-            onSearch(searchQuery);
-        }
+        // if(searchQuery){
+        //     onSearch(searchQuery);
+        // }
+        onSearch(searchQuery);
     };
 
     const onClearSearch = () => {
@@ -34,14 +35,14 @@ const NotesSearch = ({ onSearch }) => {
             </button>
 
             {/* Clear Search Button */}
-            {searchQuery && (
+            {/* {searchQuery && ( */}
                 <button
                     className="ml-3 px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none"
                     onClick={onClearSearch}
                 >
                     Clear
                 </button>
-            )}
+            {/* )} */}
         </div>
     );
 };

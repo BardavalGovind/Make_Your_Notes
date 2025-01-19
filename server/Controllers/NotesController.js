@@ -3,6 +3,7 @@ const dotenv = require("dotenv");
 const Notes = require("../Models/Notes");
 const multer = require("multer");
 const path = require("path");
+const Note = require("../models/CreateNote")
 
 dotenv.config();
 
@@ -78,4 +79,193 @@ const getNoteByID = async (req, res) => {
     }
 };
 
-module.exports = { uploadNote, getNote, getNoteByID };
+//addnote
+const addNote = async (req, res) => {
+    try {
+        // Extract data from request body
+        const { title, content, tags, userId } = req.body;
+
+        if (!userId) {
+            return res.status(400).json({ error: true, message: "userId is required" });
+        }
+        // Validate required fields
+        if (!title) {
+            return res.status(400).json({ error: true, message: "Title is required" });
+        }
+
+        if (!content) {
+            return res.status(400).json({ error: true, message: "Content is required" });
+        }
+
+        // Create a new note instance
+        const newNote = new Note({
+            title,
+            content,
+            tags: tags || [], // Default empty array if no tags
+            userId,
+        });
+
+        // Save the note to the database
+        await newNote.save();
+
+        // Respond with success
+        return res.json({
+            error: false,
+            note: newNote,
+            message: "Note added successfully",
+        });
+    } catch (error) {
+        console.error(error); // Log the error for debugging
+        return res.status(500).json({
+            error: true,
+            message: "Internal server error",
+        });
+    }
+};
+
+//edit note
+const editNote = async (req, res) => {
+    try {
+        // Extract data from request body
+        const { title, content, tags, userId } = req.body;
+        const noteId = req.params.noteId;
+
+        console.log("noteId for backend edit note: ", noteId);
+
+        // Ensure userId is provided
+        if (!userId) {
+            return res.status(400).json({ error: true, message: "userId is required" });
+        }
+
+        // Validate required fields
+        if (!title && !content && !tags) {
+            return res.status(400).json({ error: true, message: "No changes provided" });
+        }
+
+        // Find the note to be updated
+        const note = await Note.findOne({ _id: noteId, userId });
+
+        if (!note) {
+            return res.status(404).json({ error: true, message: "Note not found" });
+        }
+
+        // Update the note fields
+        if (title) note.title = title;
+        if (content) note.content = content;
+        if (tags) note.tags = tags;
+
+        // Save the updated note to the database
+        await note.save();
+
+        // Respond with success
+        return res.json({
+            error: false,
+            note,
+            message: "Note updated successfully",
+        });
+    } catch (error) {
+        console.error(error); // Log the error for debugging
+        return res.status(500).json({
+            error: true,
+            message: "Internal server error",
+        });
+    }
+};
+
+
+// Get all notes
+const getAllNotes = async (req, res) => {
+    const { userId } = req.query; // Access userId from request body
+    console.log("get all notes userid backend: ",userId);
+
+    if (!userId) {
+        return res.status(400).json({
+          error: true,
+          message: "userId is required in query parameters",
+        });
+      }
+    
+    try {
+        const notes = await Note.find({ userId: userId });
+
+        return res.json({
+            error: false,
+            notes,
+            message: "All notes retrieved successfully",
+        });
+    } catch (error) {
+        return res.status(500).json({
+            error: true,
+            message: "Internal server Error",
+        });
+    }
+};
+
+// Delete Note
+const deleteNote = async (req, res) => {
+    const noteId = req.params.id;
+    const { userId } = req.body;
+
+    console.log("noteid in deleting note backend: ", userId);
+
+    try {
+        const note = await Note.findOne({ _id: noteId, userId: userId });
+
+        if (!note) {
+            return res.status(404).json({ error: true, message: "Note not found" });
+        }
+
+        await Note.deleteOne({ _id: noteId, userId: userId });
+
+        return res.json({
+            error: false,
+            message: "Note deleted successfully",
+        });
+    } catch (error) {
+        return res.status(500).json({
+            error: true,
+            message: "Internal server Error",
+        });
+    }
+};
+
+// Search Notes
+const searchNotes = async (req, res) => {
+    const { query, userId } = req.query; // Get the search query
+
+    console.log("userid for search notes backend: ", userId);
+
+    if (!userId) {
+        return res.status(400).json({ error: "Missing userId" });
+    }
+    if (!query) {
+        return res.status(400).json({ error: true, message: "Search query is required" });
+    }
+
+    try {
+        const matchingNotes = await Note.find({
+            userId: userId,
+            $or: [
+                { title: { $regex: new RegExp(query, "i") } },
+                { content: { $regex: new RegExp(query, "i") } },
+            ],
+        });
+
+        return res.json({
+            error: false,
+            notes: matchingNotes,
+            message: "Notes matching the search query retrieved successfully",
+        });
+    } catch (error) {
+        return res.status(500).json({
+            error: true,
+            message: "Internal Server Error",
+        });
+    }
+};
+
+
+
+
+module.exports = { uploadNote, getNote, getNoteByID,
+    getAllNotes, deleteNote, searchNotes, addNote, editNote };
