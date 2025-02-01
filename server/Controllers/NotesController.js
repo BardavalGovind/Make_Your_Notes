@@ -237,7 +237,7 @@ const searchNotes = async (req, res) => {
 
     if (!userId) {
         return res.status(400).json({ error: "Missing userId" });
-    }
+      }
     if (!query) {
         return res.status(400).json({ error: true, message: "Search query is required" });
     }
