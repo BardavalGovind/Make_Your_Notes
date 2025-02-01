@@ -22,9 +22,9 @@ const Navbar = () => {
   return (
     <header className="flex h-[80px] bg-white shadow-md fixed w-full top-0 left-0 z-50">
       <div className="mx-5 flex w-full max-w-[1550px] items-center justify-between">
-        {/* Logo Section */}
-        <div className="flex h-[60px] w-[120px] items-center justify-center overflow-hidden">
-          <img src="/logo.png" alt="Logo" />
+        {/* Text-Based Logo */}
+        <div className="text-3xl font-extrabold text-blue-600 tracking-wide focus:outline-none focus:ring-4 focus:ring-blue-500">
+          PrepMate
         </div>
 
         {/* Center Navigation Links for Authenticated User, Right-Aligned for Unauthenticated */}

@@ -6,45 +6,42 @@ const About = () => {
       <div className="grid h-full w-full place-content-center">
         <img
           src="./aboutUs.svg"
-          alt=""
-          className="w-[300px] sm:w-[400px]  md:w-[450px] lg:w-[600px]"
+          alt="About Us"
+          className="w-[300px] sm:w-[400px] md:w-[450px] lg:w-[600px]"
         />
       </div>
-      <div className="flex h-full  w-full flex-col items-center justify-center">
-        <div className="">
+      <div className="flex h-full w-full flex-col items-center justify-center">
+        <div>
           <h1 className="relative w-fit text-2xl font-bold before:absolute before:top-[90%] before:h-[3px] before:w-[60%] before:bg-[#2563eb] lg:text-4xl lg:before:top-full">
             About Us
           </h1>
           <p className="mt-1 text-[15px] lg:mt-3">
-            Welcome to FindMyNotes, the ultimate hub for students to seamlessly
-            share and access educational resources. Our platform is designed
-            with a singular purpose – to make the exchange of study materials as
-            effortless as possible, fostering a collaborative and enriching
-            academic experience for students across colleges.
+            Welcome to <strong>PrepMate</strong>, your go-to platform for creating, organizing, 
+            and managing study notes efficiently. Designed to streamline note-taking, 
+            our platform helps students and professionals keep their learning resources 
+            structured and easily accessible.
           </p>
         </div>
-        <div className="">
+        <div>
           <h1 className="relative w-fit text-2xl font-bold before:absolute before:top-[90%] before:h-[3px] before:w-[60%] before:bg-[#2563eb] lg:text-4xl lg:before:top-full">
-            Who We Are:
+            Who We Are
           </h1>
           <p className="mt-1 text-[15px] lg:mt-3">
-            FindMyNotes is more than just a website; it's a community-driven
-            initiative fueled by the passion for learning. Founded by a group of
-            dedicated students, our platform is a testament to the belief that
-            education should be a collective journey. Our team comprises tech
-            enthusiasts, educators, and creative minds, all united in the
-            mission to enhance the learning landscape.
+            <strong>PrepMate</strong> is not just a note-making tool; it's a productivity-driven 
+            platform designed to enhance learning experiences. Founded by a team of passionate 
+            learners and tech enthusiasts, our mission is to provide an intuitive and seamless 
+            way to organize knowledge.
           </p>
         </div>
-        <div className="">
+        <div>
           <h1 className="relative w-fit text-2xl font-bold before:absolute before:top-[90%] before:h-[3px] before:w-[60%] before:bg-[#2563eb] lg:text-4xl lg:before:top-full">
-            Our Mission:
+            Our Mission
           </h1>
           <p className="mt-1 text-[15px] lg:mt-3">
-            At FindMyNotes, our mission is clear: to empower students by
-            providing a centralized platform where knowledge knows no
-            boundaries. We aim to break down the barriers to academic success,
-            making valuable study materials accessible to all.
+            At <strong>PrepMate</strong>, we strive to empower students and professionals with 
+            a smart note-taking system that fosters better retention and organization. 
+            Our goal is to break barriers in knowledge management, making study materials 
+            and ideas effortlessly accessible anytime, anywhere.
           </p>
         </div>
       </div>

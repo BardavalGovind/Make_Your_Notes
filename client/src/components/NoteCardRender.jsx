@@ -149,7 +149,7 @@ const NoteCardRender = () => {
         ) : (
           <EmptyCard
             imgSrc={AddNotesImg}
-            message={`Start creating your first note! Click on the notes image to prepare notes. Let's get started!`}
+            message={`Start creating your first note! Click on the bottom right button to prepare notes. Let's get started!`}
           />
         )}
       </div>

@@ -62,7 +62,7 @@ const UploadNote = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-orange-400 to-blue-400">
     <form className="flex h-full w-full max-w-[770px] flex-col items-center justify-center  p-5 md:border md:border-gray-300 lg:justify-center" onSubmit={submitFile}>
       <h1 className="mb-5 text-2xl font-black">Upload Your Notes</h1>
       <div className="mb-5 w-full max-w-[550px] ">

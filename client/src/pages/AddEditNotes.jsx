@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { MdClose } from 'react-icons/md';
-import { FaStickyNote } from 'react-icons/fa';  // Add this import
+import { FaStickyNote } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
 import TagInput from '../components/TagInput';
+import SpeechToText from './VoiceNote';
 
 const AddEditNotes = ({ noteData, type, onClose, showMessage, getAllNotes }) => {
   const [title, setTitle] = useState(noteData?.title || "");
@@ -51,10 +52,9 @@ const AddEditNotes = ({ noteData, type, onClose, showMessage, getAllNotes }) => 
   };
 
   return (
-    <div className="flex h-screen bg-gray-100">
-      {/* Main Content */}
+    <div className="flex h-screen">
       <div className="flex-1 p-8">
-        <div className="relative bg-gradient-to-br from-yellow-200 to-orange-400 p-8 rounded-2xl shadow-2xl mx-auto border-4 border-yellow-300">
+        <div className="relative bg-gradient-to-r from-orange-200 to-blue-200 p-6 rounded-2xl shadow-2xl mx-auto border-4 max-w-3xl">
           <button
             className="w-12 h-12 rounded-full flex items-center justify-center absolute -top-6 -right-6 bg-white shadow-md hover:bg-red-500 hover:text-white transition-all duration-300"
             onClick={onClose}
@@ -70,38 +70,37 @@ const AddEditNotes = ({ noteData, type, onClose, showMessage, getAllNotes }) => 
           </div>
 
           <div className="flex flex-col gap-4">
-            {/* Title and Tags Section */}
-            <div className="flex gap-4">
-              <input
-                type="text"
-                className="text-lg p-4 border rounded-xl focus:outline-none bg-gray-100 text-black mb-4 w-full"
-                placeholder="Note Title"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-              />
-              <TagInput tags={tags} setTags={setTags} />
-            </div>
+            <input
+              type="text"
+              className="text-lg p-4 border rounded-xl focus:outline-none bg-white text-black mb-4 w-full"
+              placeholder="Note Title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
 
-            {/* Content Section */}
             <textarea
-              className="text-lg p-4 border rounded-xl focus:outline-none bg-gray-100 text-black"
+              className="text-lg p-4 border rounded-xl focus:outline-none bg-white text-black"
               placeholder="Note Content"
               rows="8"
               value={content}
               onChange={(e) => setContent(e.target.value)}
               style={{ resize: "none" }}
             />
+            <TagInput tags={tags} setTags={setTags} />
           </div>
 
           {error && <p className="text-red-500 text-center mt-4">{error}</p>}
 
-          {/* Add Note Button */}
-          <button
-            className="w-full py-3 mt-4 bg-blue-500 text-white rounded-xl shadow-lg hover:bg-blue-600 transition-all duration-300"
-            onClick={handleAddOrEditNote}
-          >
-            {type === "edit" ? "Update Note" : "Add Note"}
-          </button>
+          <div className="flex gap-4 justify-center mt-6">
+            <button
+              className="py-3 px-6 bg-blue-500 text-white rounded-xl shadow-lg hover:bg-blue-600 transition-all duration-300"
+              onClick={handleAddOrEditNote}
+            >
+              {type === "edit" ? "Update Note" : "Add Note"}
+            </button>
+
+            <SpeechToText setContent={setContent} />
+          </div>
         </div>
       </div>
     </div>

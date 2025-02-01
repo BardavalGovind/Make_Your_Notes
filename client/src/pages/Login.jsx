@@ -43,26 +43,25 @@ const Login = () => {
   };
 
   return (
-    <div className="flex h-screen w-full items-center justify-center bg-cover bg-center bg-no-repeat px-5" 
-         style={{ backgroundImage: "url('https://source.unsplash.com/random/1600x900/?nature,abstract')" }}>
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-orange-400 to-blue-400">
       <form 
-        className="flex w-full max-w-[500px] flex-col gap-5 bg-white bg-opacity-90 p-6 rounded-2xl shadow-2xl border border-gray-300 backdrop-blur-md"
+        className="flex w-full max-w-[500px] flex-col gap-8 p-8  rounded-xl shadow-2xl border border-gray-200 backdrop-blur-md"
         onSubmit={loginUser}
       >
-        <h1 className="text-3xl font-extrabold text-gray-800 text-center">Login</h1>
+        <h1 className="text-4xl font-extrabold text-black text-center mb-6">Login</h1>
 
         {/* Error message display */}
         {error && <p className="text-red-500 text-sm text-center">{error}</p>}
 
-        <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-6">
           {/* Email Input */}
           <div className="flex flex-col">
-            <label className="font-medium text-gray-700" htmlFor="userEmail">Email</label>
+            <label className="font-medium text-black mb-2" htmlFor="userEmail">Email</label>
             <input
               type="email"
               id="userEmail"
               name="userEmail"
-              className="w-full rounded-lg border border-gray-300 p-3 outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
+              className="w-full rounded-lg border border-black p-4 outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
               placeholder="your.email@example.com"
               value={userEmail}
               onChange={(e) => setUserEmail(e.target.value)}
@@ -71,12 +70,12 @@ const Login = () => {
 
           {/* Password Input */}
           <div className="flex flex-col">
-            <label className="font-medium text-gray-700" htmlFor="userPassword">Password</label>
+            <label className="font-medium text-black mb-2" htmlFor="userPassword">Password</label>
             <input
               type="password"
               id="userPassword"
               name="userPassword"
-              className="w-full rounded-lg border border-gray-300 p-3 outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
+              className="w-full rounded-lg border border-gray-300 p-4 outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
               placeholder="*********"
               value={userPassword}
               onChange={(e) => setUserPassword(e.target.value)}
@@ -87,15 +86,15 @@ const Login = () => {
         {/* Submit Button */}
         <button 
           type="submit" 
-          className="rounded-lg bg-blue-500 px-5 py-3 text-white font-semibold hover:bg-blue-600 transition duration-200 transform hover:scale-105 shadow-md"
+          className="rounded-lg bg-blue-600 px-6 py-3 text-white font-semibold hover:bg-blue-700 transition duration-200 transform hover:scale-105 shadow-md"
         >
           Login
         </button>
 
         {/* Signup Redirect */}
-        <div className="flex items-center justify-center text-sm text-gray-600">
+        <div className="flex items-center justify-center text-sm text-black mt-4">
           <p>New to FindMyNotes?</p>
-          <Link to="/signup" className="ml-2 font-semibold text-blue-600 hover:underline">
+          <Link to="/signup" className="ml-2 font-semibold text-blue-900 hover:underline">
             Create an account
           </Link>
         </div>
