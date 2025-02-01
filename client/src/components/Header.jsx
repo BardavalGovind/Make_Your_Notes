@@ -1,15 +1,13 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { GiHamburgerMenu } from "react-icons/gi";  
+import { GiHamburgerMenu } from "react-icons/gi";
 import { useDispatch, useSelector } from "react-redux";
 import { removeUserData } from "../Redux/slices/user-slice";
 
 const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
-
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleLogout = () => {
@@ -22,151 +20,108 @@ const Navbar = () => {
   };
 
   return (
-    <header className="flex h-[80px] shadow-md">
+    <header className="flex h-[80px] bg-white shadow-md fixed w-full top-0 left-0 z-50">
       <div className="mx-5 flex w-full max-w-[1550px] items-center justify-between">
         {/* Logo Section */}
         <div className="flex h-[60px] w-[120px] items-center justify-center overflow-hidden">
           <img src="/logo.png" alt="Logo" />
         </div>
 
-        {/* Hamburger Menu for Small Screens */}
-        <div>
-
-        <GiHamburgerMenu
-          className="text-xl md:hidden cursor-pointer"
-          onClick={toggleMenu}
-        />
-
-        {/* Mobile Menu - Positioned on the Left Side */}
-        {isMenuOpen && (
-          <div className="fixed top-0 left-0 w-[250px] bg-gray-800 text-white z-50 p-5">
-            <button
-              className="text-white text-2xl absolute top-5 right-5"
-              onClick={toggleMenu}
-            >
-              ✕
-            </button>
-            <nav className="flex flex-col gap-4">
-              <Link
-                to="/"
-                className="w-full hover:bg-blue-600 p-3 rounded transition duration-300"
-              >
-                Home
-              </Link>
-              <Link
-                to="/about"
-                className="w-full hover:bg-blue-600 p-3 rounded transition duration-300"
-              >
-                About
-              </Link>
-              {isAuthenticated ? (
-                <>
-                  <Link
-                    to="/notecardrender"
-                    className="w-full hover:bg-blue-600 p-3 rounded transition duration-300"
-                  >
-                    Go to NoteCard
-                  </Link>
-                  <Link
-                    to="/search"
-                    className="w-full hover:bg-blue-600 p-3 rounded transition duration-300"
-                  >
-                    Search
-                  </Link>
-                  <Link
-                    to="/upload"
-                    className="w-full hover:bg-blue-600 p-3 rounded transition duration-300"
-                  >
-                    Upload
-                  </Link>
-                  <Link to="/profile">
-                    <button className="w-full hover:bg-blue-600 p-3 rounded transition duration-300 text-left">
-                      Profile
-                    </button>
-                  </Link>
-                  <button
-                    className="w-full hover:bg-blue-600 p-3 rounded transition duration-300 text-left"
-                    onClick={handleLogout}
-                  >
-                    Logout
-                  </button>
-                </>
-              ) : (
-                <>
-                  <Link to="/login">
-                    <button className="w-full rounded-xl px-5 py-2 font-semibold hover:bg-blue-700 transition duration-300 text-left">
-                      Login
-                    </button>
-                  </Link>
-                  <Link to="/signup">
-                    <button className="w-full rounded-xl px-5 py-2 font-semibold hover:bg-blue-700 transition duration-300 text-left">
-                      Signup
-                    </button>
-                  </Link>
-                </>
-              )}
-            </nav>
-          </div>
-          
-        )}
-
-        {/* Desktop Nav Links */}
-        <div className="hidden md:flex md:items-center md:justify-center md:gap-4 text-center w-full">
-          <Link to="/" className="hover:text-blue-500">
-            Home
-          </Link>
-          <Link to="/about" className="hover:text-blue-500">
-            About
-          </Link>
+        {/* Center Navigation Links for Authenticated User, Right-Aligned for Unauthenticated */}
+        <nav className={`flex flex-grow gap-6 ${isAuthenticated ? 'justify-center' : 'justify-end'}`}>
+          <NavLink to="/">Home</NavLink>
+          <NavLink to="/about">About</NavLink>
           {isAuthenticated ? (
             <>
-            
-              <Link to="/notecardrender">
-                <button className="rounded-xl bg-blue-500 px-5 py-2 font-semibold hover:bg-blue-700">
-                Go to NoteCard
-                </button>
-              </Link>
-              <Link to="/search">
-                <button className="rounded-xl bg-blue-500 px-5 py-2 font-semibold hover:bg-blue-700">
-                  Search
-                </button>
-              </Link>
-              <Link to="/upload">
-                <button className="rounded-xl bg-blue-500 px-5 py-2 font-semibold hover:bg-blue-700">
-                  Upload
-                </button>
-              </Link>
-              <Link to="/profile">
-                <button className="rounded-xl bg-blue-500 px-5 py-2 font-semibold hover:bg-blue-700">
-                  Profile
-                </button>
-              </Link>
-              <button
-                className="rounded-xl bg-blue-500 px-5 py-2 font-semibold hover:bg-blue-700"
-                onClick={handleLogout}
-              >
-                Logout
-              </button>
+              <NavLink to="/notecardrender">ViewNote</NavLink>
+              <NavLink to="/search">Search</NavLink>
+              <NavLink to="/upload">Upload</NavLink>
+              <NavLink to="/profile">Profile</NavLink>
             </>
           ) : (
             <>
-              <Link to="/login">
-                <button className="rounded-xl bg-blue-500 px-5 py-2 font-semibold hover:bg-blue-700">
-                  Login
-                </button>
-              </Link>
-              <Link to="/signup">
-                <button className="rounded-xl bg-blue-500 px-5 py-2 font-semibold hover:bg-blue-700">
-                  Signup
-                </button>
-              </Link>
+              <NavLink to="/login">Login</NavLink>
+              <NavLink to="/signup">Signup</NavLink>
             </>
           )}
-        </div>
+        </nav>
+
+        {/* Logout Button */}
+        {isAuthenticated && (
+          <button
+            className="px-6 py-3 font-semibold text-white bg-blue-500 hover:bg-blue-700 focus:ring-4 focus:ring-blue-500 rounded-lg duration-300"
+            onClick={handleLogout}
+          >
+            Logout
+          </button>
+        )}
+
+        {/* Hamburger Menu for Small Screens */}
+        <div className="md:hidden">
+          <GiHamburgerMenu
+            className="text-2xl text-black cursor-pointer transition duration-300 transform hover:scale-110"
+            onClick={toggleMenu}
+          />
         </div>
       </div>
+
+      {/* Mobile Menu */}
+      {isMenuOpen && (
+        <div className="fixed top-0 left-0 w-[250px] h-full bg-gradient-to-r from-blue-700 to-purple-700 text-white z-50 p-5 rounded-r-lg">
+          <button
+            className="text-white text-2xl absolute top-5 right-5"
+            onClick={toggleMenu}
+          >
+            ✕
+          </button>
+          <nav className="flex flex-col gap-2 mt-10">
+            <NavLinkMobile to="/">Home</NavLinkMobile>
+            <NavLinkMobile to="/about">About</NavLinkMobile>
+            {isAuthenticated ? (
+              <>
+                <NavLinkMobile to="/notecardrender">ViewNote</NavLinkMobile>
+                <NavLinkMobile to="/search">Search</NavLinkMobile>
+                <NavLinkMobile to="/upload">Upload</NavLinkMobile>
+                <NavLinkMobile to="/profile">Profile</NavLinkMobile>
+                <button
+                  className="w-full text-left hover:bg-blue-500 p-4 rounded-lg transition duration-300"
+                  onClick={handleLogout}
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <NavLinkMobile to="/login">Login</NavLinkMobile>
+                <NavLinkMobile to="/signup">Signup</NavLinkMobile>
+              </>
+            )}
+          </nav>
+        </div>
+      )}
     </header>
   );
 };
+
+// Reusable NavLink Component for Desktop with Animated Underline Effect
+const NavLink = ({ to, children }) => (
+  <Link
+    to={to}
+    className="relative px-6 py-2 font-semibold text-black hover:text-blue-500 duration-300 group"
+  >
+    {children}
+    <span className="absolute left-1/2 bottom-[2px] h-[1px] w-0 bg-blue-500 transition-all duration-300 ease-in-out group-hover:w-full group-hover:left-0"></span>
+  </Link>
+);
+
+// Reusable NavLink Component for Mobile
+const NavLinkMobile = ({ to, children }) => (
+  <Link
+    to={to}
+    className="w-full hover:bg-blue-500 p-3 rounded-lg transition duration-300"
+  >
+    {children}
+  </Link>
+);
 
 export default Navbar;

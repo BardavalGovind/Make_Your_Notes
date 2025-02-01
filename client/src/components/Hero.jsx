@@ -3,53 +3,53 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 const Hero = () => {
-
-  const isAuthenticated = useSelector((state)=> state.user.isAuthenticated);
+  const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
 
   return (
-    <div className='bg-unsplashBgImage relative flex h-full 
-    items-center justify-center bg-cover bg-center'>
-      <div className='absolute inset-0 bg-black bg-opacity-70'/>
-      <div className='relative z-10 w-full max-w-[860px] border text-center text-white'>
-        <h1 className='text-4xl font-black md:text-5xl'>FIND MY NOTES</h1>
-        <p className='mt-5 text-sm font-light md:text-xl md:font-normal'>Lorem ipsum dolor sit, amet consectetur adipisicing elit. 
-          Eius illum perferendis beatae, minima aperiam vitae quos nam sint pariatur voluptate fugit sunt quibusdam
-          unde eos porro rem consectetur delectus deserunt libero aliquam magni sequi commodi magnam!
-          Necessitatibus, ex et a aliquid doloremque exercitationem perspiciatis dolorem modi eos incidunt nulla beatae mollitia earum. Enim velit, quod ullam explicabo vitae totam a. Qui minus recusandae aliquid quas ea sequi sed explicabo inventore dolorum, reiciendis natus laboriosam nisi, mollitia soluta nemo unde fugiat deleniti accusamus iure enim iusto ab? Asperiores, dolorem expedita
-          cumque facere similique molestiae, laboriosam
+    <div className="relative flex h-screen items-center justify-center bg-gradient-to-r from-blue-900 via-blue-700 to-blue-500 overflow-hidden">
+      {/* Background Glow Effect */}
+      <div className="absolute w-[500px] h-[500px] bg-blue-400 opacity-20 rounded-full blur-3xl top-[-100px] left-[-100px] animate-pulse-fast"></div>
+      <div className="absolute w-[400px] h-[400px] bg-purple-400 opacity-20 rounded-full blur-3xl bottom-[-150px] right-[-100px] animate-pulse-fast"></div>
+
+      {/* Hero Content */}
+      <div className="relative z-10 w-full max-w-[900px] text-center text-white px-6 md:px-12 py-12 sm:py-16 animate-fadeIn-fast">
+        <h1 className="text-5xl md:text-6xl font-extrabold leading-tight mb-6 transition-transform duration-[250ms] ease-out hover:scale-125 hover:text-blue-200">
+          Your Notes, <span className="text-blue-300">Organized & Accessible</span>
+        </h1>
+
+        <p className="text-lg md:text-xl font-light mb-10 max-w-[700px] mx-auto transition-transform duration-[400ms] ease-in delay-100 transform hover:scale-110 hover:translate-y-1 hover:text-blue-200">
+          Stay in control of your ideas with a seamless, intuitive, and powerful note-taking experience.  
+          Organize, edit, and access your notes anytime, anywhere!
         </p>
-        <div className='mt-5'>
-          {/* <Link to="/search">
-              <button className='rounded-xl bg-white 
-              px-7 py-4 font-black text-blue-500'>
-                Get Started</button>
-          </Link> */}
-          <div className='flex items-center justify-center gap-5'>
-            {isAuthenticated ? (
-                <Link to="/search" className='mr-10 rounded-xl
-                bg-white px-6 py-3 text-lg font-bold text-blue-500
-                hover:bg-gray-100'>Get Started</Link>
-            ) : (
-              <>
-              <Link to="/login">
-                  <button className='rounded-xl bg-white 
-                  px-7 py-4 font-black text-blue-500'>
-                    Login</button>
+
+        <div className="flex justify-center gap-6">
+          {isAuthenticated ? (
+            <Link
+              to="/search"
+              className="px-8 py-3 rounded-xl text-lg font-semibold text-blue-800 bg-white hover:bg-blue-200 transition duration-[150ms] ease-in transform hover:scale-115 shadow-lg"
+            >
+              Get Started 
+            </Link>
+          ) : (
+            <>
+              <Link
+                to="/login"
+                className="px-8 py-3 rounded-xl text-lg font-semibold text-white border-2 border-white hover:bg-blue-600 hover:border-blue-600 transition duration-[150ms] ease-in transform hover:scale-115 shadow-lg"
+              >
+                Login
               </Link>
-              <Link to="/signup">
-                  <button className='rounded-xl bg-white 
-                  px-7 py-4 font-black text-blue-500'>
-                    SignUp</button>
+              <Link
+                to="/signup"
+                className="px-8 py-3 rounded-xl text-lg font-semibold text-white border-2 border-white hover:bg-blue-300 hover:border-blue-600 transition duration-[150ms] ease-in transform hover:scale-115 shadow-lg"
+              >
+                Sign Up
               </Link>
-          </>
+            </>
           )}
-          </div>
         </div>
       </div>
     </div>
   );
-}
+};
+
 export default Hero;
-
-
-

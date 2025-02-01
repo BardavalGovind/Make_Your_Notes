@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Signup = () => {
   const [profilePreviewImage, setProfilePreviewImage] = useState("");
@@ -13,186 +15,85 @@ const Signup = () => {
   const [userName, setUserName] = useState("");
   const [userPassword, setUserPassword] = useState("");
 
- const registerUser = async (e)=>{
-  try{
+  const registerUser = async (e) => {
     e.preventDefault();
+    try {
+      const formData = new FormData();
+      formData.append("firstName", firstName);
+      formData.append("lastName", lastName);
+      formData.append("userMobile", userMobile);
+      formData.append("userBio", userBio);
+      formData.append("userEmail", userEmail);
+      formData.append("userName", userName);
+      formData.append("userPassword", userPassword);
+      formData.append("profileImage", profileImage);
 
-    const formData = new FormData();
-    formData.append("firstName", firstName);
-    formData.append("lastName", lastName);
-    formData.append("userMobile", userMobile);
-    formData.append("userBio", userBio);
-    formData.append("userEmail", userEmail);
-    formData.append("userName", userName);
-    formData.append("userPassword", userPassword);
-    formData.append("profileImage", profileImage);
-
-    const result = await axios.post(
-      "http://localhost:5000/auth/signup",
-      formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      },
-    );
-    const userProfileImage = result.data.userProfileImage;
-    console.log("User profile image:", userProfileImage);
-    alert("User entry saved in database");
-  }
-  catch(error){
-    console.log("Failed to register user: ", error);
-  }
-  
- }
+      const result = await axios.post("http://localhost:5000/auth/signup", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      toast.success("User registered successfully!");
+    } catch (error) {
+      toast.error("Failed to register. Try again.");
+    }
+  };
 
   return (
-    <div className=" flex w-full items-center justify-center bg-[#f3f4f6]">
-      <form className="flex h-full w-full max-w-[420px] flex-col gap-3 bg-white p-5" onSubmit={registerUser}>
-        <h1 className="text-2xl font-black">Register</h1>
-        <div className="flex items-start justify-center gap-4" >
-          <div className="flex flex-col items-start justify-center">
-            <label className="font-bold" htmlFor="firstName">First Name</label>
-            <input
-              type="text"
-              id="firstName"
-              name="firstName"
-              className="w-full rounded-lg border p-2 focus:border-blue-500  focus:outline-none"
-              placeholder="John"
-              onChange={(e) => setFirstName(e.target.value)}
-            />
+    <div className="flex min-h-screen items-center justify-center bg-gray-100 px-4">
+      <form className="w-full max-w-2xl rounded-xl bg-white p-10 shadow-lg" onSubmit={registerUser}>
+        <h1 className="mb-6 text-center text-4xl font-bold text-gray-700">Register</h1>
+        
+        <div className="mb-6 grid grid-cols-2 gap-6">
+          <div>
+            <label className="block font-semibold" htmlFor="firstName">First Name</label>
+            <input type="text" id="firstName" className="w-full rounded-lg border p-3 focus:ring-2 focus:ring-blue-400" placeholder="John" onChange={(e) => setFirstName(e.target.value)} />
           </div>
-          <div className="flex flex-col items-start justify-center">
-            <label className="font-bold" htmlFor="lastName">Last Name</label>
-            <input
-              type="text"
-              id="lastName"
-              name="lastName"
-              className="w-full rounded-lg border p-2 focus:border-blue-500  focus:outline-none"
-              placeholder="Doe"
-              onChange={(e) => setLastName(e.target.value)}
-            />
+          <div>
+            <label className="block font-semibold" htmlFor="lastName">Last Name</label>
+            <input type="text" id="lastName" className="w-full rounded-lg border p-3 focus:ring-2 focus:ring-blue-400" placeholder="Doe" onChange={(e) => setLastName(e.target.value)} />
           </div>
         </div>
-        <div className="flex flex-col items-start justify-center">
-          <label className="font-bold" htmlFor="userBio">Bio</label>
-          <textarea
-            id="userBio"
-            name="userBio"
-            rows="3"
-            className="mt-1 w-full rounded-md border p-2 focus:border-blue-500 focus:outline-none"
-            placeholder="Tell us something about yourself"
-            required
-            onChange={(e) => setUserBio(e.target.value)}
-          ></textarea>
-
+        
+        <div className="mb-6">
+          <label className="block font-semibold" htmlFor="userBio">Bio</label>
+          <textarea id="userBio" rows="4" className="w-full rounded-lg border p-3 focus:ring-2 focus:ring-blue-400" placeholder="Tell us about yourself" onChange={(e) => setUserBio(e.target.value)}></textarea>
         </div>
-        <div className="flex flex-col items-start justify-center">
-          <label className="font-bold" htmlFor="userEmail">Email</label>
-          <input
-            type="email"
-            id="userEmail"
-            name="userEmail"
-            className="w-full rounded-lg border p-2 focus:border-blue-500  focus:outline-none"
-            placeholder="your.email@example.com"
-            onChange={(e) => setUserEmail(e.target.value)}
-          />
+        
+        <div className="mb-6">
+          <label className="block font-semibold" htmlFor="userEmail">Email</label>
+          <input type="email" id="userEmail" className="w-full rounded-lg border p-3 focus:ring-2 focus:ring-blue-400" placeholder="your.email@example.com" onChange={(e) => setUserEmail(e.target.value)} />
         </div>
-        <div className="flex flex-col items-start justify-center">
-          <label className="font-bold" htmlFor="userMobile">Mobile Number</label>
-          <input
-            type="number"
-            id="userMobile"
-            name="userMobile"
-            className="w-full rounded-lg border p-2 focus:border-blue-500  focus:outline-none"
-            placeholder="0000000000"
-            onChange={(e) => setUserMobile(e.target.value)}
-          />
+        
+        <div className="mb-6">
+          <label className="block font-semibold" htmlFor="userMobile">Mobile Number</label>
+          <input type="text" id="userMobile" className="w-full rounded-lg border p-3 focus:ring-2 focus:ring-blue-400" placeholder="0000000000" onChange={(e) => setUserMobile(e.target.value)} />
         </div>
-        <div className="flex flex-col items-start justify-center">
-          <label className="font-bold" htmlFor="userName">UserName</label>
-          <input
-            type="text"
-            id="userName"
-            name="userName"
-            className="w-full rounded-lg border p-2 focus:border-blue-500  focus:outline-none"
-            placeholder="johndoe123"
-            onChange={(e) => setUserName(e.target.value)}
-          />
+        
+        <div className="mb-6">
+          <label className="block font-semibold" htmlFor="userName">Username</label>
+          <input type="text" id="userName" className="w-full rounded-lg border p-3 focus:ring-2 focus:ring-blue-400" placeholder="johndoe123" onChange={(e) => setUserName(e.target.value)} />
         </div>
-
-        <div className="flex flex-col items-start justify-center">
-          <label className="font-bold" htmlFor="userPassword">Password</label>
-          <input
-            type="password"
-            id="userPassword"
-            name="userPassword"
-            className="w-full rounded-lg border p-2 focus:border-blue-500  focus:outline-none"
-            placeholder="*********"
-            onChange={(e) => setUserPassword(e.target.value)}
-          />
+        
+        <div className="mb-6">
+          <label className="block font-semibold" htmlFor="userPassword">Password</label>
+          <input type="password" id="userPassword" className="w-full rounded-lg border p-3 focus:ring-2 focus:ring-blue-400" placeholder="********" onChange={(e) => setUserPassword(e.target.value)} />
         </div>
-        <div className="flex w-full flex-col items-center justify-center">
-          <div className="mb-4 grid h-[200px] w-[200px] place-content-center overflow-hidden rounded-full border-2 border-dashed border-gray-300 bg-gray-50 text-2xl font-black">
-            {/* 200 x 200 */}
-            {profilePreviewImage == "" ? (
-              <p className="text-sm font-bold text-gray-500">Profile Image</p>
-            ) : (
-              <img src={profilePreviewImage} alt="" className="" />
-            )}
+        
+        <div className="mb-6 flex flex-col items-center">
+          <div className="mb-4 h-32 w-32 overflow-hidden rounded-full border-2 border-gray-300">
+            {profilePreviewImage ? <img src={profilePreviewImage} alt="Profile" className="h-full w-full object-cover" /> : <p className="flex h-full items-center justify-center text-sm text-gray-500">Profile Image</p>}
           </div>
-          <label
-            htmlFor="dropzone-file"
-            className="flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100"
-          >
-            <div className="flex flex-col items-center justify-center pb-6 pt-5">
-              <svg
-                className="mb-4 h-8 w-8 text-gray-500 "
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 20 16"
-              >
-                <path
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2 "
-                />
-              </svg>
-              <p className="mb-2 text-sm text-gray-500">
-                <span className="font-semibold">
-                  Click to Upload your profile image
-                </span>
-              </p>
-
-              <input
-                type="file"
-                placeholder="File"
-                accept="application/png"
-                required
-                id="dropzone-file"
-                onChange={(e) => {
-                  setProfilePreviewImage(
-                    URL.createObjectURL(e.target.files[0]),
-                  );
-                  setProfileImage(e.target.files[0]);
-                }}
-                className="hidden"
-              />
-            </div>
+          <label className="cursor-pointer rounded-md border px-5 py-2 text-sm font-semibold text-blue-600 hover:bg-blue-100">
+            Upload Image
+            <input type="file" accept="image/*" className="hidden" onChange={(e) => {
+              setProfilePreviewImage(URL.createObjectURL(e.target.files[0]));
+              setProfileImage(e.target.files[0]);
+            }} />
           </label>
         </div>
-        <button className="rounded-lg bg-blue-500 px-5 py-2 font-bold text-white hover:bg-blue-600">
-          Register
-        </button>
-        <div className="text-sm">
-          Already have an account?{" "}
-          <Link to="/login" className="font-bold text-blue-500 hover:underline">
-            Login
-          </Link>
-        </div>
+        
+        <button className="w-full rounded-lg bg-blue-600 px-5 py-3 text-white font-bold hover:bg-blue-700 text-lg">Register</button>
+        
+        <p className="mt-6 text-center text-sm">Already have an account? <Link to="/login" className="text-blue-600 hover:underline">Login</Link></p>
       </form>
     </div>
   );

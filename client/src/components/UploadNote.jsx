@@ -2,6 +2,8 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { selectUserData } from '../Redux/slices/user-slice';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const UploadNote = () => {
 
@@ -22,6 +24,7 @@ const UploadNote = () => {
 
       if (!userId) {
         setError("User is not logged in.");
+        toast.error("User is not logged in.");
         return;
       }
 
@@ -44,7 +47,7 @@ const UploadNote = () => {
         },
       );
       console.log("Data: ", result);
-      alert("Notes Uploaded Successfully");
+      toast.success("Notes Uploaded Successfully!");
 
       setTitle("");
       setDescription("");
@@ -54,11 +57,13 @@ const UploadNote = () => {
 
     } catch (error) {
       console.log("Failed to submit file: ", error);
+      toast.error("Failed to upload notes.");
     }
   };
 
   return (
-    <form className="flex h-full w-full max-w-[770px] flex-col items-center justify-start  p-5 md:border md:border-gray-300 lg:justify-center" onSubmit={submitFile}>
+    <div className="flex items-center justify-center min-h-screen">
+    <form className="flex h-full w-full max-w-[770px] flex-col items-center justify-center  p-5 md:border md:border-gray-300 lg:justify-center" onSubmit={submitFile}>
       <h1 className="mb-5 text-2xl font-black">Upload Your Notes</h1>
       <div className="mb-5 w-full max-w-[550px] ">
         <input
@@ -90,7 +95,7 @@ const UploadNote = () => {
       <div className="flex w-full max-w-[550px] items-center justify-center">
         <label
           htmlFor="dropzone-file"
-          className="flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100  "
+          className="flex h-64 w-full cursor-pointer flex-col items-center text-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100  "
         >
           <div className="flex flex-col items-center justify-center pb-6 pt-5">
             <svg
@@ -129,6 +134,8 @@ const UploadNote = () => {
         Submit
       </button>
     </form>
+    </div>
+    
   );
 };
 
